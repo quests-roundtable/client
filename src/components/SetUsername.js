@@ -1,6 +1,6 @@
-import React, {useCallback} from "react";
+import React, { useCallback, useState } from "react";
 import { useUser } from "../context/UserContext";
-import { Button, Form, FormControl } from "react-bootstrap";
+import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import { useFields } from "../components/hooks";
 
 export function SetUsername() {
@@ -10,25 +10,28 @@ export function SetUsername() {
 
     const { user, setUserName } = useUser();
 
-    const handleSubmit = useCallback(() => {
-        setUserName(fields.name);
-    }, [fields.name, setUserName])
+    function validateForm() {
+        return fields.name.length > 0;
+    }
 
     return (
         <div>
             <h1>Current name: {user && user.name}</h1>
-            <Form onSubmit={handleSubmit}> 
+            <Form>
                 <Form.Label>Username</Form.Label>
-                <FormControl
-                    id="name"
-                    autoFocus
-                    value={fields.name}
-                    onChange={handleFieldChange}
-                />
-                <Button variant="outline-dark" type="submit">Update</Button>
+                <InputGroup>
+                    <FormControl
+                        id="name"
+                        autoFocus
+                        value={fields.name}
+                        onChange={handleFieldChange}
+                    />
+                    <Button disabled={!validateForm()} variant="outline-dark" type="submit" onClick={() => { 
+                        setUserName(fields.name);
+                        }}>Update</Button>
+
+                </InputGroup>
             </Form>
         </div>
     )
 }
-
-// export default SetUsername;
