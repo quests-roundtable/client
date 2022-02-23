@@ -5,34 +5,52 @@ import React, {
   useCallback,
   useContext,
 } from "react";
-import SockJsClient from 'react-stomp';
+import { Client } from '@stomp/stompjs';
 
-const SocketContext = createContext(null);
+const wsclient = new Client({
+  brokerURL: 'ws://localhost:9090/ws',
+  debug: function (str) {
+    console.log(str);
+  },
+  reconnectDelay: 5000,
+  heartbeatIncoming: 4000,
+  heartbeatOutgoing: 4000,
+});
 
-function SocketProvider({ children, lobby }) {
-  const [lastMessage, setLastMessage] = useState({});
+const SocketContext = createContext(wsclient);
 
-  const sendMessage = (msg) => {
-    this.clientRef.sendMessage('/ws', msg);
-  }
+function SocketProvider({ children, lobby, setState }) {
+  // const [lastMessage, setLastMessage] = useState("None");
+  const client = useContext(SocketContext)
+  const messageHandler = useCallback((message) => {
+    if(message.body) {
+      setState(JSON.parse(message.body));
+    } else {
+      console.log("No message data.")
+    }
+  }, [])
+
+  useEffect(() => {
+    client.onConnect = function (frame) {
+      client.subscribe('/topic/message', messageHandler);
+    };
+    
+    client.onStompError = function (frame) {
+      // Will be invoked in case of error encountered at Broker
+      console.log('Broker reported error: ' + frame.headers['message']);
+      console.log('Additional details: ' + frame.body);
+    };
+
+    console.log("rerendered provider")
+    
+    client.activate();
+  }, [client, messageHandler])
 
   return (
-    <div>
-      <SockJsClient url='http://localhost:9090/ws' topics={[`/topic/messages`]}
-            onMessage={(msg) => { console.log(msg); setLastMessage(msg) }}
-            ref={ (client) => { this.clientRef = client }} />
-
-      <SocketContext.Provider
-        value={{ lastMessage, lobby, sendMessage }}
-      >
-        {children}
-      </SocketContext.Provider>
-    </div>
+    <SocketContext.Provider value={{ lobby }}>
+      {children}
+    </SocketContext.Provider>
   );
 }
 
-function useSocket() {
-  return useContext(SocketContext);
-}
-
-export { useSocket, SocketProvider };
+export { SocketContext, SocketProvider };

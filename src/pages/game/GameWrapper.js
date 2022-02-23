@@ -1,26 +1,22 @@
-import React from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import Game from "./Game";
-import { SocketProvider } from "../../context/SocketContext";
-import {
-  StompSessionProvider,
-  useSubscription,
-} from "react-stomp-hooks";
+import { SocketProvider, SocketContext } from "../../context/SocketContext";
 
 function GameWrapper() {
+  const [state, setState] = useState('No server message here.');
   const { id } = useParams();
+  const client = useContext(SocketContext);
 
+  console.log("rernderd")
   return (
-    <div>
-      <h1>Lobby: {id}</h1>
-      {/* <SocketProvider lobby={id}>
-        <Game />
-      </SocketProvider> */}
-      <StompSessionProvider url={"http://localhost:9090/ws"}>
-        <Game/>
-      </StompSessionProvider>
-    </div>
+    <SocketProvider lobby={id} setState={setState} >
+      <div>
+        <h1>Lobby: {id}</h1>
+        <Game state={state}/>
+      </div>
+    </SocketProvider>
   );
 }
 
-export default GameWrapper;
+export default React.memo(GameWrapper);
