@@ -1,44 +1,38 @@
-import React, { createContext, useEffect, useState, useCallback, useContext } from "react";
-import useWebSocket from "react-use-websocket";
-
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  useCallback,
+  useContext,
+} from "react";
+import SockJsClient from 'react-stomp';
 
 const SocketContext = createContext(null);
 
 function SocketProvider({ children, lobby }) {
-    // const [lastMessages, setLastMessages] = useState({});
+  const [lastMessage, setLastMessage] = useState({});
 
-    // todo: socket endpoint
-    const SocketUrl = `ws://localhost:4000`
+  const sendMessage = (msg) => {
+    this.clientRef.sendMessage('/ws', msg);
+  }
 
-    const {
-        sendJsonMessage,
-        lastJsonMessage,
-        readyState
-    } = useWebSocket(SocketUrl, {
-        onOpen: () =>
-            console.log(`Connection to lobby ${lobby} opened/`),
-        shouldReconnect: () => true,
-        onError: () => setError(`Lobby ${lobby} does not exist.`),
-    });
+  return (
+    <div>
+      <SockJsClient url='http://localhost:9090/ws' topics={[`/topic/messages`]}
+            onMessage={(msg) => { console.log(msg); setLastMessage(msg) }}
+            ref={ (client) => { this.clientRef = client }} />
 
-    // useEffect(() => {
-    //     if (lastJsonMessage)
-    //         setLastMessages((prev) => ({
-    //             ...prev,
-    //             lastJsonMessage,
-    //         }));
-    // }, [lastJsonMessage]);
-
-    return (
-        <SocketContext.Provider
-            value={{ sendJsonMessage, lastJsonMessage, readyState, lobby }}>
-            {children}
-        </SocketContext.Provider>
-    )
+      <SocketContext.Provider
+        value={{ lastMessage, lobby, sendMessage }}
+      >
+        {children}
+      </SocketContext.Provider>
+    </div>
+  );
 }
 
-function useSocket(){
-    return useContext(SocketContext);
+function useSocket() {
+  return useContext(SocketContext);
 }
 
-export { useSocket, SocketProvider }
+export { useSocket, SocketProvider };

@@ -1,18 +1,18 @@
-import React from "react";
-import { useUser } from "../context/userContext";
-import { Button, Form } from "react-bootstrap";
+import React, {useCallback} from "react";
+import { useUser } from "../context/UserContext";
+import { Button, Form, FormControl } from "react-bootstrap";
 import { useFields } from "../components/hooks";
 
-function SetUsername() {
+export function SetUsername() {
     var [fields, handleFieldChange] = useFields({
         name: "",
     });
 
     const { user, setUserName } = useUser();
 
-    function handleSubmit(){
+    const handleSubmit = useCallback(() => {
         setUserName(fields.name);
-    }
+    }, [fields.name, setUserName])
 
     return (
         <div>
@@ -20,15 +20,15 @@ function SetUsername() {
             <Form onSubmit={handleSubmit}> 
                 <Form.Label>Username</Form.Label>
                 <FormControl
-                    id="username"
+                    id="name"
                     autoFocus
                     value={fields.name}
                     onChange={handleFieldChange}
                 />
-                <Button type="submit">Update</Button>
+                <Button variant="outline-dark" type="submit">Update</Button>
             </Form>
         </div>
     )
 }
 
-export default SetUsername;
+// export default SetUsername;
