@@ -19,16 +19,17 @@ const wsclient = new Client({
 
 const SocketContext = createContext(wsclient);
 
-function SocketProvider({ children, lobby, setState }) {
+const SocketProvider = React.memo(({ children, lobby, setState }) => {
   // const [lastMessage, setLastMessage] = useState("None");
   const client = useContext(SocketContext)
   const messageHandler = useCallback((message) => {
+    console.log(message)
     if(message.body) {
-      setState(JSON.parse(message.body));
+      setState(message.body);
     } else {
       console.log("No message data.")
     }
-  }, [])
+  }, [setState])
 
   useEffect(() => {
     client.onConnect = function (frame) {
@@ -51,6 +52,6 @@ function SocketProvider({ children, lobby, setState }) {
       {children}
     </SocketContext.Provider>
   );
-}
+})
 
 export { SocketContext, SocketProvider };

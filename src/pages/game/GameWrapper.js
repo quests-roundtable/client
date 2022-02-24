@@ -6,7 +6,7 @@ import { SocketProvider, SocketContext } from "../../context/SocketContext";
 function GameWrapper() {
   const [state, setState] = useState('No server message here.');
   const { id } = useParams();
-  const client = useContext(SocketContext);
+  // const client = useContext(SocketContext);
 
   console.log("rernderd")
   return (
