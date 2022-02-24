@@ -11,7 +11,7 @@ async function getUser() {
     async function createNewUser() {
         console.log("create new user");
         return fetch(`/players/create`).then((res) => res.json()).then((res) => {
-            cookie.set("userId", res.id, { sameSite: "lax" });
+            cookie.set("userId", res.id, { sameSite: "strict" });
             return res;
         });
     }
@@ -38,16 +38,15 @@ function UserContextProvider({ children }) {
 
     useEffect(() => getUser().then((res) => setUser(res)), []);
 
-    const setUserName = useCallback(
-        async (username) => {
-            console.log(`Setting name to ${username}.`)
-            if (user) {
-                const params = {id: user.id, name: username};
-                const res = await axios.post(`/players/setName`, params);
-                setUser(res);
-            }
-        }, [user]
-    )
+    const setUserName = useCallback((username) => {
+        const params = {id: user.id, name: username};
+        axios.post(`/players/setName`, params).then((res) => {
+            setUser(res.data);
+        }).catch((err) => {
+            console.log("Set username error: " + err);
+        }
+        )
+    }, [user])
 
     useEffect(() => {
         if (user && user.id !== userId) {

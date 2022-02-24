@@ -1,18 +1,17 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Game from "./Game";
-import { SocketProvider, SocketContext } from "../../context/SocketContext";
+import { SocketProvider } from "../../context/SocketContext";
 
 function GameWrapper() {
   const [state, setState] = useState('No server message here.');
   const { id } = useParams();
-  // const client = useContext(SocketContext);
 
-  console.log("rernderd")
+  console.log("Game Wrapper Rendered")
   return (
     <SocketProvider lobby={id} setState={setState} >
       <div>
-        <h1>Lobby: {id}</h1>
+        <h4 style={{paddingBottom: "10px"}}>Lobby | game#{id}</h4>
         <Game state={state} lobby={id}/>
       </div>
     </SocketProvider>
