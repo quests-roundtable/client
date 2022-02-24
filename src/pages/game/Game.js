@@ -25,7 +25,9 @@ function Game(props) {
         //     body: fields.message
         // })
         // tx.commit();
-        fetch("/game/message", {method: "POST", body: fields.message})
+        axios.post("/game/message", 
+            { state: fields.message, lobby: props.lobby }
+            )
             .then(res => {
                 console.log(res)
             }).catch(err => alert(err));
