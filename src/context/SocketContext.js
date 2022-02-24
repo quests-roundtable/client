@@ -33,7 +33,7 @@ const SocketProvider = React.memo(({ children, lobby, setState }) => {
 
   useEffect(() => {
     client.onConnect = function (frame) {
-      client.subscribe('/topic/message', messageHandler);
+      client.subscribe(`/topic/game#${lobby}`, messageHandler);
     };
     
     client.onStompError = function (frame) {
@@ -45,7 +45,7 @@ const SocketProvider = React.memo(({ children, lobby, setState }) => {
     console.log("rerendered provider")
     
     client.activate();
-  }, [client, messageHandler])
+  }, [client, messageHandler, lobby])
 
   return (
     <SocketContext.Provider value={{ lobby }}>

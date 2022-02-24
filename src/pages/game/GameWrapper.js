@@ -13,7 +13,7 @@ function GameWrapper() {
     <SocketProvider lobby={id} setState={setState} >
       <div>
         <h1>Lobby: {id}</h1>
-        <Game state={state}/>
+        <Game state={state} lobby={id}/>
       </div>
     </SocketProvider>
   );
