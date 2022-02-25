@@ -1,0 +1,98 @@
+.container {  
+    display: grid;
+    grid-template-columns: 1fr 1fr 3fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-areas:
+      "game-info adventure-deck player2 discard"
+      "game-info player3 quest-event player4"
+      "player-info player3 quest-event player4"
+      "player-info player3 player1 player4"
+      "player-info hand hand hand";
+}
+
+.player-info { grid-area: player-info; }
+  
+.game-info { grid-area: game-info; }
+  
+.hand { grid-area: hand; }
+  
+.player1 {
+    display: grid; 
+    grid-template-columns: 1fr 3fr; 
+    grid-template-rows: 1fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "rank1 ."; 
+    grid-area: player1; 
+}
+
+.rank1 { grid-area: rank1; }
+  
+.player2 {
+    display: grid; 
+    grid-template-columns: 1fr 3fr; 
+    grid-template-rows: 1fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "rank2 ."; 
+    grid-area: player2; 
+}
+
+.rank2 { grid-area: rank2; }
+
+.player3 {
+    display: grid; 
+    grid-template-columns: 1fr; 
+    grid-template-rows: 1fr 3fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "rank3"
+      "."; 
+    grid-area: player3; 
+}
+
+.rank3 { grid-area: rank3; }
+
+.player4 {
+    display: grid; 
+    grid-template-columns: 1fr; 
+    grid-template-rows: 1fr 3fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "rank4"
+      "."; 
+    grid-area: player4; 
+}
+
+.rank4 { grid-area: rank4; }
+
+.discard { grid-area: discard; }
+
+.adventure-deck { grid-area: adventure-deck; }
+  
+.quest-event {  
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-areas:
+      "story-deck event"
+      "story-deck event"
+      "story-deck event";
+    grid-area: quest-event;
+}
+  
+.story-deck { grid-area: story-deck; }
+  
+.event { grid-area: event; }
