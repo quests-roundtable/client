@@ -24,7 +24,7 @@ const SocketProvider = React.memo(({ children, lobby, setState }) => {
   const messageHandler = useCallback((message) => {
     console.log(message)
     if(message.body) {
-      setState(message.body);
+      setState(JSON.parse(message.body));
     } else {
       console.log("No message data.")
     }

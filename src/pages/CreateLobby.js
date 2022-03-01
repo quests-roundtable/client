@@ -15,7 +15,8 @@ function CreateLobby(){
             const params = userId;
             fetch(
                 `/game/create`, {method: "POST", body: params}
-            ).then((res) => res.json()).then((res) => navigate(`/game/${res.game.id}`)).catch(err => alert(err));
+            ).then((res) => res.json()).then((res) => navigate(`/game/${res.game.id}`, {state: res.game}))
+            .catch(err => alert(err));
         }
     }, [userId, navigate]);
 

@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Container, Form, InputGroup, FormControl} from "react-bootstrap";
+import { Button, Container, InputGroup, FormControl} from "react-bootstrap";
 import { useFields } from "../components/hooks";
 import { SetUsername } from "../components/SetUsername";
 import { useUser } from "../context/UserContext";
@@ -32,7 +32,7 @@ function JoinLobby(){
             ).then(
                 (res) => res.data
             ).then(
-                (lobby) => navigate(`/game/${lobby.game.id}`)
+                (lobby) => navigate(`/game/${lobby.game.id}`, {state: lobby.game})
             ).catch((err) => alert(`Error ${err.response.status}: ${err.response.data.message}`))
         }
     }, [userId, navigate, fields.lobbyName]);
@@ -46,7 +46,7 @@ function JoinLobby(){
             ).then(
                 (res) => res.data
             ).then(
-                (lobby) => navigate(`/game/${lobby.game.id}`)
+                (lobby) => navigate(`/game/${lobby.game.id}`, {state: lobby.game})
             ).catch((err) => alert(`Error ${err.response.status}: ${err.response.data.message}`))
         }
     }, [userId, navigate]);
