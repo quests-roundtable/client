@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import { useUser } from "../../context/UserContext";
 import PlayerHand from "../../components/game/PlayerHand";
-import axios from "axios";
 import { Button } from "react-bootstrap";
+import PlayerInfo from "../../components/game/PlayerInfo";
+import "../../styles/game-layout.css"
+
 function Game(props) {
     const user = useUser();
     console.log(props)
@@ -13,7 +15,7 @@ function Game(props) {
             <div className="game-info"></div>
 
             {/* Add player-info component*/}
-            <div className="player-info"></div>
+            <PlayerInfo className="player-info" players={props.state.players}/>
 
             {/* Add player hand component*/}
             <div className="hand">
@@ -25,13 +27,13 @@ function Game(props) {
                 <div className="rank1"></div>
             </div>
             <div className="player2">
-                <div className="rank1"></div>
+                <div className="rank2"></div>
             </div>
             <div className="player3">
-                <div className="rank1"></div>
+                <div className="rank3"></div>
             </div>
             <div className="player4">
-                <div className="rank1"></div>
+                <div className="rank4"></div>
 
             </div>
 
