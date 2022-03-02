@@ -3,17 +3,20 @@
     grid-template-columns: 1fr 1fr 3fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     gap: 0px 0px;
-    grid-auto-flow: row;
-    justify-content: center;
-    align-content: center;
-    justify-items: center;
-    align-items: center;
+    /* grid-auto-flow: row; */
+    justify-content: stretch;
+    align-content: stretch;
+    justify-items: stretch;
+    align-items: stretch;
     grid-template-areas:
       "game-info adventure-deck player2 discard"
       "game-info player3 quest-event player4"
       "player-info player3 quest-event player4"
       "player-info player3 player1 player4"
       "player-info hand hand hand";
+    min-width: 100%;
+    height: 90%;
+    background-color: white;
 }
 
 .player-info { grid-area: player-info; }
@@ -96,3 +99,9 @@
 .story-deck { grid-area: story-deck; }
   
 .event { grid-area: event; }
+
+div {
+  border-color: black;
+  border-radius: 0.01px;
+  border-style: dotted;
+}
