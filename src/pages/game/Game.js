@@ -53,7 +53,7 @@ function Game(props) {
                 
             </div>
 
-            <div style={{ "position": "fixed", "bottom": 0, "right": 0 }}>
+            <div style={{ "position": "fixed", "bottom": 0, "right": "50%" }}>
                 <Button onClick={() => fetch(
                     `/test/test1`, { method: "POST", body: props.lobby }
                 )}>11 Cards</Button>

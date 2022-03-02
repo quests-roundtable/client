@@ -105,3 +105,22 @@ div {
   border-radius: 0.01px;
   border-style: dotted;
 }
+
+.card {
+  background: transparent;
+  transition: transform 250ms;
+  z-index: 1;
+}
+
+.card:hover {
+  transform: translateY(-50px) scale(1.5) translateZ(0px);
+  z-index: 2;
+}
+
+.modalf{
+  height: 100vh !important;
+  width: 100vw !important;
+  max-height: 100vh !important;
+  max-width: 100vw !important;
+  white-space: pre-line;
+}
