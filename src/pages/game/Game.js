@@ -1,7 +1,8 @@
 import React, { useState } from "react"
 import { useUser } from "../../context/UserContext";
 import PlayerHand from "../../components/game/PlayerHand";
-
+import axios from "axios";
+import { Button } from "react-bootstrap";
 function Game(props) {
     const user = useUser();
     console.log(props)
@@ -48,6 +49,18 @@ function Game(props) {
                 <div className="event"></div>
             </div>
                 
+            </div>
+
+            <div style={{ "position": "fixed", "bottom": 0, "right": 0 }}>
+                <Button onClick={() => fetch(
+                    `/test/test1`, { method: "POST", body: props.lobby }
+                )}>11 Cards</Button>
+                <Button onClick={() => fetch(
+                    `/test/test2`, { method: "POST", body: props.lobby }
+                )}>12 Cards</Button>
+                                <Button onClick={() => fetch(
+                    `/test/test3`, { method: "POST", body: props.lobby }
+                )}>13 Cards</Button>
             </div>
             
         </>
