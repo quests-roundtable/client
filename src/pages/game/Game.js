@@ -4,9 +4,19 @@ import PlayerHand from "../../components/game/PlayerHand";
 import { Button } from "react-bootstrap";
 import PlayerInfo from "../../components/game/PlayerInfo";
 import "../../styles/game-layout.css"
+import Player from "../../components/game/Player";
 
 function Game({state, lobby}) {
     const user = useUser();
+
+    const playerAlign = () => {
+        var numPlayers = state.players.length
+        if (numPlayers === 2) {
+            return [1, 2]
+        } else {
+            return [1, 3, 2, 4]
+        } 
+    }
 
     return (
         <>
@@ -18,14 +28,10 @@ function Game({state, lobby}) {
             <PlayerInfo className="player-info" players={state.players}/>
 
             {/* Add player hand component*/}
-            <div className="hand">
-                <PlayerHand state={state} lobby={lobby}/>
-            </div>
+            <PlayerHand className="hand" state={state} lobby={lobby}/>
 
             {/* Add player components below with the given className */}
-            <div className="player1">
-                <div className="rank1"></div>
-            </div>
+            <Player className="player1" player={state.players[0]}></Player>
             <div className="player2">
                 <div className="rank2"></div>
             </div>

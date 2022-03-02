@@ -6,7 +6,7 @@ import { useUser } from "../../context/UserContext";
 
 
 
-function PlayerHand({ state, lobby }) {
+function PlayerHand({ className, state, lobby }) {
 
     console.log("state:", state);
     console.log("lobby:", lobby);
@@ -18,14 +18,12 @@ function PlayerHand({ state, lobby }) {
     console.log(cards);
     const params = { lobby: lobby };
     return (
-        <>
+        <div className={className}>
             <Row>
                 {cards && cards.length > 0 ? cards.map((card) => <Col key={card.id}><Card type={card.type} /></Col>) : <></>}
             </Row>
 
-
-           
-        </>
+        </div>
     )
 }
 
