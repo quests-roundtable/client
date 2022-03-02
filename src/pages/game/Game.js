@@ -1,9 +1,10 @@
 import React, { useState } from "react"
 import { useUser } from "../../context/UserContext";
+import PlayerHand from "../../components/game/PlayerHand";
 
 function Game(props) {
     const user = useUser();
-    
+    console.log(props)
     return (
         <>
         <div className="container">
@@ -14,7 +15,9 @@ function Game(props) {
             <div className="player-info"></div>
 
             {/* Add player hand component*/}
-            <div className="hand"></div>
+            <div className="hand">
+                <PlayerHand state={props.state} lobby={props.lobby}/>
+            </div>
 
             {/* Add player components below with the given className */}
             <div className="player1">
@@ -27,7 +30,7 @@ function Game(props) {
                 <div className="rank1"></div>
             </div>
             <div className="player4">
-                <div className="rank1"></div>   3
+                <div className="rank1"></div>
 
             </div>
 
