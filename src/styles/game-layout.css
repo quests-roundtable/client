@@ -100,8 +100,8 @@
   
 .event { grid-area: event; }
 
-div {
+.container div {
   border-color: black;
   border-radius: 0.01px;
-  border-style: dotted;
+  border-style:groove;
 }

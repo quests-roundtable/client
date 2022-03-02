@@ -15,7 +15,6 @@ function GameWrapper() {
     <SocketProvider lobby={id} setState={setState} >
         {state.gameStatus === WAITING_LOBBY ? (
           <div>
-            <h4 style={{paddingBottom: "10px"}}>Lobby | game#{id}</h4>
             <Lobby state={state} lobby={id}/>
           </div>
         ) : (

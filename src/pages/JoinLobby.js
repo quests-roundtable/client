@@ -56,7 +56,7 @@ function JoinLobby(){
     }
 
     return (
-        <Container className="lobby-div">
+        <div className="lobby-div">
             <div>
                 <Back className="back-bt"/>
                 <h2 className="lobby-margin"><b>Lobby</b></h2>
@@ -79,7 +79,7 @@ function JoinLobby(){
             </div>
             <Button className="lobby-bt" variant="outline-dark" type="submit" onClick={joinRandomGameLobby}>
                 Join Random Lobby</Button>
-        </Container>
+        </div>
     )
 }
 

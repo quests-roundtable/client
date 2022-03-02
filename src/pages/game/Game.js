@@ -5,9 +5,9 @@ import { Button } from "react-bootstrap";
 import PlayerInfo from "../../components/game/PlayerInfo";
 import "../../styles/game-layout.css"
 
-function Game(props) {
+function Game({state, lobby}) {
     const user = useUser();
-    console.log(props)
+
     return (
         <>
         <div className="container">
@@ -15,11 +15,11 @@ function Game(props) {
             <div className="game-info"></div>
 
             {/* Add player-info component*/}
-            <PlayerInfo className="player-info" players={props.state.players}/>
+            <PlayerInfo className="player-info" players={state.players}/>
 
             {/* Add player hand component*/}
             <div className="hand">
-                <PlayerHand state={props.state} lobby={props.lobby}/>
+                <PlayerHand state={state} lobby={lobby}/>
             </div>
 
             {/* Add player components below with the given className */}
@@ -55,13 +55,13 @@ function Game(props) {
 
             <div style={{ "position": "fixed", "bottom": 0, "right": 0 }}>
                 <Button onClick={() => fetch(
-                    `/test/test1`, { method: "POST", body: props.lobby }
+                    `/test/test1`, { method: "POST", body: lobby }
                 )}>11 Cards</Button>
                 <Button onClick={() => fetch(
-                    `/test/test2`, { method: "POST", body: props.lobby }
+                    `/test/test2`, { method: "POST", body: lobby }
                 )}>12 Cards</Button>
                                 <Button onClick={() => fetch(
-                    `/test/test3`, { method: "POST", body: props.lobby }
+                    `/test/test3`, { method: "POST", body: lobby }
                 )}>13 Cards</Button>
             </div>
             

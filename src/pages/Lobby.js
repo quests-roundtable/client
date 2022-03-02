@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import { usePOSTRequest } from "../components/hooks";
 import { Button, InputGroup, FormControl} from "react-bootstrap";
+import "../styles/lobby.css"
 
-function Lobby(props) {
+function Lobby({state, lobby}) {
     var [fields, handleFieldChange] = useState({
         message: "",
     });
@@ -15,12 +16,13 @@ function Lobby(props) {
     }
     
     function validateStart() {
-        return props.state.players.length >= 2;
+        return state.players.length >= 2;
     }
 
     return (
         <>
-        <div style={{width: "50vw", margin: "auto"}}>
+        <div className="lobby-div" style={{width: "50vw", margin: "auto"}}>
+            <h4 style={{paddingBottom: "10px"}}>Lobby | game#{lobby}</h4>
             <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1">Message</InputGroup.Text>
                 <FormControl
@@ -31,19 +33,19 @@ function Lobby(props) {
                     onChange={ e => setField("message", e.target.value)}
                 />
                 <Button variant="outline-dark" type="submit" 
-                    onClick={usePOSTRequest("/game/message", fields.message, props.state.id)}>
+                    onClick={usePOSTRequest("/game/message", fields.message, state.id)}>
                     Send message
                 </Button>
             </InputGroup>
                 
             <div>
-                Last Message received: {props.state.message}
+                Last Message received: {state.message}
             </div>
 
             <br/>
             <div>
-                <b>Players joined: {props.state.players.length}</b>
-                {props.state.players.map((player, index) => {
+                <b>Players joined: {state.players.length}</b>
+                {state.players.map((player, index) => {
                     return(
                         <li style={{listStyleType: "none"}} key={index}> {player.name} </li>
                     )
@@ -52,7 +54,7 @@ function Lobby(props) {
             <br/>
 
             <Button disabled={!validateStart()} variant="outline-dark"
-                    onClick={usePOSTRequest("/game/start", props.state.id, props.state.id)}>
+                    onClick={usePOSTRequest("/game/start", state.id, state.id)}>
                     Start Game
             </Button>
             

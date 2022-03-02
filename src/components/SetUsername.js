@@ -15,7 +15,7 @@ export function SetUsername() {
     }
 
     return (
-        <div style={{width: "40vw", margin: "10px auto"}}>
+        <div style={{width: "40vw", margin: "auto"}}>
             <h5>Player: {user && user.name}</h5>
             <InputGroup className="mb-3">
                     <InputGroup.Text id="basic-addon1">Username</InputGroup.Text>

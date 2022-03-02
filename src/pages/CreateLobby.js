@@ -21,7 +21,7 @@ function CreateLobby(){
     }, [userId, navigate]);
 
     return (
-        <Container className="lobby-div">
+        <div className="lobby-div">
             <div>
                 <Back className="back-bt"/>
                 <h2 className="lobby-margin"><b>Lobby</b></h2>
@@ -29,7 +29,7 @@ function CreateLobby(){
             <SetUsername/>
             <Button className="lobby-bt" variant="outline-dark" type="submit" onClick={createGameLobby}>
                 Create Lobby</Button>
-        </Container>
+        </div>
     )
 }
 
