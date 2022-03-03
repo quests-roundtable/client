@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Card from "./Card";
 import { Modal, Button, Row, Col } from "react-bootstrap";
-import axios from "axios";
 import { useUser } from "../../context/UserContext";
 import { propTypes } from "react-bootstrap/esm/Image";
 
@@ -9,13 +8,12 @@ import { propTypes } from "react-bootstrap/esm/Image";
 
 function PlayerHand({ className, state, lobby }) {
 
-    console.log("state:", state);
+    // console.log("state:", state);
     // console.log("lobby:", lobby);
     const { user } = useUser();
 
     const player = state.players ? state.players.find(player => player.id == user.id) : null;
     const cards = player && player.playerHand ? player.playerHand : [];
-    console.log("cards:", cards);
 
     const [selected, setSelected] = useState([]);
 
@@ -49,7 +47,7 @@ function PlayerHand({ className, state, lobby }) {
             "transition": "250ms"
         }
         if (selectedSoFar.includes(card)) {
-            style["box-shadow"] = "10px -10px 5px";
+            style["boxShadow"] = "10px -10px 5px";
             console.log("card is selected");
         }
         return style;
@@ -69,7 +67,7 @@ function PlayerHand({ className, state, lobby }) {
                 show={isDiscarding()}
                 backdrop="static"
                 keyboard={false}>
-                <Modal.Header>
+                <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
                     <Modal.Title>Discard: Maximum hand limit (12) exceeded. </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
