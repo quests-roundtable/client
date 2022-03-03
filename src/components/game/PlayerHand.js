@@ -10,11 +10,12 @@ import { propTypes } from "react-bootstrap/esm/Image";
 function PlayerHand({ className, state, lobby }) {
 
     console.log("state:", state);
-    console.log("lobby:", lobby);
+    // console.log("lobby:", lobby);
     const { user } = useUser();
 
     const player = state.players ? state.players.find(player => player.id == user.id) : null;
-    const cards = player ? player.cards : [];
+    const cards = player && player.playerHand ? player.playerHand : [];
+    console.log("cards:", cards);
 
     const [selected, setSelected] = useState([]);
 

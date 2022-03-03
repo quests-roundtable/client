@@ -38,49 +38,49 @@ const SocketProvider = React.memo(({ children, lobby, setState }) => {
                     players: [
                         {
                             id: user.id,
-                            cards: [
+                            playerHand: [
                                 {
-                                    type: "Event_01",
+                                    typeId: "Event_01",
                                     id: "0001"
                                 },
                                 {
-                                    type: "Event_02",
+                                    typeId: "Event_02",
                                     id: "0002"
                                 },
                                 {
-                                    type: "Event_04",
+                                    typeId: "Event_04",
                                     id: "0003"
                                 },
                                 {
-                                    type: "Event_05",
+                                    typeId: "Event_05",
                                     id: "0004"
                                 },
                                 {
-                                    type: "Event_06",
+                                    typeId: "Event_06",
                                     id: "0005"
                                 },
                                 {
-                                    type: "Event_07",
+                                    typeId: "Event_07",
                                     id: "0006"
                                 },
                                 {
-                                    type: "Event_08",
+                                    typeId: "Event_08",
                                     id: "0007"
                                 },
                                 {
-                                    type: "Foe_01",
+                                    typeId: "Foe_01",
                                     id: "0008"
                                 },
                                 {
-                                    type: "Foe_02",
+                                    typeId: "Foe_02",
                                     id: "0009"
                                 },
                                 {
-                                    type: "Foe_03",
+                                    typeId: "Foe_03",
                                     id: "0010"
                                 },
                                 {
-                                    type: "Foe_04",
+                                    typeId: "Foe_04",
                                     id: "0011"
                                 }
                             ]
@@ -97,53 +97,53 @@ const SocketProvider = React.memo(({ children, lobby, setState }) => {
                     players: [
                         {
                             id: user.id,
-                            cards: [
+                            playerHand: [
                                 {
-                                    type: "Event_01",
+                                    typeId: "Event_01",
                                     id: "0001"
                                 },
                                 {
-                                    type: "Event_02",
+                                    typeId: "Event_02",
                                     id: "0002"
                                 },
                                 {
-                                    type: "Event_04",
+                                    typeId: "Event_04",
                                     id: "0003"
                                 },
                                 {
-                                    type: "Event_05",
+                                    typeId: "Event_05",
                                     id: "0004"
                                 },
                                 {
-                                    type: "Event_06",
+                                    typeId: "Event_06",
                                     id: "0005"
                                 },
                                 {
-                                    type: "Event_07",
+                                    typeId: "Event_07",
                                     id: "0006"
                                 },
                                 {
-                                    type: "Event_08",
+                                    typeId: "Event_08",
                                     id: "0007"
                                 },
                                 {
-                                    type: "Foe_01",
+                                    typeId: "Foe_01",
                                     id: "0008"
                                 },
                                 {
-                                    type: "Foe_02",
+                                    typeId: "Foe_02",
                                     id: "0009"
                                 },
                                 {
-                                    type: "Foe_03",
+                                    typeId: "Foe_03",
                                     id: "0010"
                                 },
                                 {
-                                    type: "Foe_04",
+                                    typeId: "Foe_04",
                                     id: "0011"
                                 },
                                 {
-                                    type: "Foe_05",
+                                    typeId: "Foe_05",
                                     id: "0012"
                                 },
                             ]
@@ -160,57 +160,57 @@ const SocketProvider = React.memo(({ children, lobby, setState }) => {
                     players: [
                         {
                             id: user.id,
-                            cards: [
+                            playerHand: [
                                 {
-                                    type: "Event_01",
+                                    typeId: "Event_01",
                                     id: "0001"
                                 },
                                 {
-                                    type: "Event_02",
+                                    typeId: "Event_02",
                                     id: "0002"
                                 },
                                 {
-                                    type: "Event_04",
+                                    typeId: "Event_04",
                                     id: "0003"
                                 },
                                 {
-                                    type: "Event_05",
+                                    typeId: "Event_05",
                                     id: "0004"
                                 },
                                 {
-                                    type: "Event_06",
+                                    typeId: "Event_06",
                                     id: "0005"
                                 },
                                 {
-                                    type: "Event_07",
+                                    typeId: "Event_07",
                                     id: "0006"
                                 },
                                 {
-                                    type: "Event_08",
+                                    typeId: "Event_08",
                                     id: "0007"
                                 },
                                 {
-                                    type: "Foe_01",
+                                    typeId: "Foe_01",
                                     id: "0008"
                                 },
                                 {
-                                    type: "Foe_02",
+                                    typeId: "Foe_02",
                                     id: "0009"
                                 },
                                 {
-                                    type: "Foe_03",
+                                    typeId: "Foe_03",
                                     id: "0010"
                                 },
                                 {
-                                    type: "Foe_04",
+                                    typeId: "Foe_04",
                                     id: "0011"
                                 },
                                 {
-                                    type: "Foe_05",
+                                    typeId: "Foe_05",
                                     id: "0012"
                                 },
                                 {
-                                    type: "Foe_06",
+                                    typeId: "Foe_06",
                                     id: "0013"
                                 }
                             ]

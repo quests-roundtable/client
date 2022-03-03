@@ -26,7 +26,7 @@ function JoinLobby(){
 
     const joinGameLobby = useCallback(() => {
         if (userId) {
-            const params = {playerId: userId, gameId: fields.lobbyName}
+            const params = {userId: userId, gameId: fields.lobbyName}
             axios.post(
                 `/game/connect`, params
             ).then(
@@ -39,7 +39,7 @@ function JoinLobby(){
 
     const joinRandomGameLobby = useCallback(()=>{
         if (userId) {
-            const params = {playerId: userId, gameId: null}
+            const params = {userId: userId, gameId: null}
             console.log(userId)
             axios.post(
                 `/game/connect/random`, params

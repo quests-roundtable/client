@@ -10,7 +10,7 @@ async function getUser() {
     const cookie = new Cookies();
     async function createNewUser() {
         console.log("create new user");
-        return fetch(`/players/create`).then((res) => res.json()).then((res) => {
+        return fetch(`/user/create`).then((res) => res.json()).then((res) => {
             cookie.set("userId", res.id, { sameSite: "strict" });
             return res;
         });
@@ -20,7 +20,7 @@ async function getUser() {
     if (cookieId !== undefined) {
         // alert(`Cookie exists! fetching user ${cookieId}`)
         console.log(`cookie exists fetching user ${cookieId}`)
-        const user = await fetch(`/players/player/${cookieId}`).then((res) => res.json()).catch((e) => {
+        const user = await fetch(`/user/user/${cookieId}`).then((res) => res.json()).catch((e) => {
             console.log(e);
             createNewUser();
         });
@@ -40,7 +40,7 @@ function UserContextProvider({ children }) {
 
     const setUserName = useCallback((username) => {
         const params = {id: user.id, name: username};
-        axios.post(`/players/setName`, params).then((res) => {
+        axios.post(`/user/setName`, params).then((res) => {
             setUser(res.data);
         }).catch((err) => {
             console.log("Set username error: " + err);

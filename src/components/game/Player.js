@@ -3,11 +3,19 @@ import Card from "./Card";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 
 function Player({className, player}) {
+
+    function getStyle() {
+        var style = {
+            "width": "100%",
+            "transition": "250ms"
+        }
+        return style;
+    }
     return(
         <div className={className}>
             <div className="rank1">
                 <Row>
-                    <Card type="Rank_01" />
+                    <Card card={player.rankCard} style={getStyle()} />
                 </Row>
             </div>
         </div>
