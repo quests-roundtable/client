@@ -8,9 +8,10 @@ import axios from "axios";
 
 
 function PlayerHand({ className, state, lobby }) {
-
-    // console.log("state:", state);
-    // console.log("lobby:", lobby);
+    const currentPlayer = state.players[state.currentPlayer]
+    const validateTurn = () => {
+        return user.id === currentPlayer.id
+    }
     const { user } = useUser();
 
     const player = state.players ? state.players.find(player => player.id == user.id) : null;
@@ -19,12 +20,6 @@ function PlayerHand({ className, state, lobby }) {
     const [selected, setSelected] = useState([]);
 
     function isDiscarding() {
-        console.log("isDiscarding");
-        if (cards && cards.length > 12) {
-            console.log("too many cards!")
-        }
-        // todo: check for turn
-        // return propTypes.currentTurnId === user.id && cards.length() > 12;
         return cards && cards.length > 12;
     }
 
@@ -41,7 +36,6 @@ function PlayerHand({ className, state, lobby }) {
 
 
     function getStyle(card) {
-        console.log("getstyle");
         const selectedSoFar = [...selected];
         var style = {
             "width": "100%",
@@ -49,7 +43,6 @@ function PlayerHand({ className, state, lobby }) {
         }
         if (selectedSoFar.includes(card)) {
             style["boxShadow"] = "10px -10px 5px";
-            console.log("card is selected");
         }
         return style;
     }
@@ -58,12 +51,7 @@ function PlayerHand({ className, state, lobby }) {
     return (
         <div className={className}>
             <Modal
-                // style={{
-                    
-                //     "position": "fixed !important",
-                //     "width: ": "vw !important",
-                //     "height": "vh !important"
-                // }}
+                centered
                 dialogClassName="modalf"
                 show={isDiscarding()}
                 backdrop="static"
@@ -93,7 +81,7 @@ function PlayerHand({ className, state, lobby }) {
             </Row>
 
             <div style={{ "position": "fixed", "bottom": 0, "left": 80 }}>
-                <Button variant="outline-dark">Play</Button>
+                <Button disabled={!validateTurn()} onClick={() => {alert(selected)}} variant="outline-dark">Play</Button>
             </div>
         </div>
     )

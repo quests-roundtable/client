@@ -17,7 +17,7 @@ function PlayerInfo({className, players, currentPlayer}) {
                     <Row key={index} style={{border: "double", margin:"0 1%", 
                         borderColor: (player.id === currentPlayer.id ? "maroon" : "black")}}>
                         <Col xs={3} style={{padding: "15% 0 5% 5%"}}>
-                            <img className="card" style={{width: "90%"}}
+                            <img className="card-static" style={{width: "90%"}}
                                 src={`http://localhost:3000/cards/shields1.png`} />
                         </Col>
                         <Col key='1' style={infoStyle} className="grid-a">

@@ -158,6 +158,25 @@
   z-index: 2;
 }
 
+.card-clickable {
+  background: transparent;
+  transition: transform 250ms;
+  z-index: 1;
+}
+
+.card-clickable:hover {
+  transform: scale(1.1) translateZ(0px);
+  z-index: 2;
+}
+
+.card-static {
+  background: transparent;
+}
+
+.card-disabled {
+  filter: grayscale(100%);
+}
+
 .modalf{
   height: 100vh !important;
   width: auto !important;

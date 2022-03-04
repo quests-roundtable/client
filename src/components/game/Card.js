@@ -1,10 +1,7 @@
 import React from "react";
 
-export default function Card({ card, style }) {
-
-  // console.log(process.env.PUBLIC_URL);
-
+export default function Card({ card, style, className="card" }) {
   return (
-    <img className="card" style={style} src={`http://localhost:3000/cards/${card.typeId}.png`} />
+    <img className={className} style={style} src={`http://localhost:3000/cards/${card.typeId}.png`} />
   )
 }
