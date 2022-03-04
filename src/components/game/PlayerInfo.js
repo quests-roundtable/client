@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
-function PlayerInfo({className, players}) {
+function PlayerInfo({className, players, currentPlayer}) {
     const infoStyle = {
         listStyleType: "none", 
         margin: "0.2vw 0.5vw", 
@@ -11,10 +11,11 @@ function PlayerInfo({className, players}) {
         padding: "0"
     }
     return(
-        <Col className={className} style={{width: "90%", margin:"0 5%"}}>
+        <Col className={className} style={{width: "90%"}}>
             {players.map((player, index) => {
                 return(
-                    <Row key={index} style={{border: "double"}}>
+                    <Row key={index} style={{border: "double", margin:"0 1%", 
+                        borderColor: (player.id === currentPlayer.id ? "maroon" : "black")}}>
                         <Col xs={3} style={{padding: "15% 0 5% 5%"}}>
                             <img className="card" style={{width: "90%"}}
                                 src={`http://localhost:3000/cards/shields1.png`} />

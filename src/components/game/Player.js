@@ -2,7 +2,7 @@ import React from "react";
 import Card from "./Card";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 
-function Player({playerNum, player}) {
+function Player({playerNum, player, style}) {
 
     function getStyle() {
         var style = {
@@ -13,7 +13,7 @@ function Player({playerNum, player}) {
     }
 
     return(
-        <div className={`player${playerNum} grid-a`}>
+        <div className={`player${playerNum} grid-a`} style={style}>
             <div className= {`rank${playerNum} grid-a`}>
                 <Card card={player.rankCard} style={getStyle()} />
             </div>

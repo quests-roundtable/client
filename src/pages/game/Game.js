@@ -31,6 +31,14 @@ function Game({state, lobby}) {
 
     const players = getPlayerPlacement();
 
+
+    // Current Player
+    const currentPlayer = state.players[state.currentPlayer]
+
+    const validateTurn = () => {
+        return user.id === currentPlayer.id
+    }
+
     return (
         <>
         <div className="container">
@@ -38,7 +46,8 @@ function Game({state, lobby}) {
             <GameInfo className="game-info" state={state}/>
 
             {/* Add player-info component*/}
-            <PlayerInfo className="player-info" players={players}/>
+            <PlayerInfo className="player-info" players={players} 
+                currentPlayer={state.players[state.currentPlayer]}/>
 
             {/* Add player hand component*/}
             <PlayerHand className="hand" state={state} lobby={lobby}/>
@@ -47,11 +56,12 @@ function Game({state, lobby}) {
             {playerAlign.map((num, idx) => {
                 if(players[idx]) {
                     return(
-                        <Player key={idx} playerNum={num} player={players[idx]}/>
+                        <Player key={idx} playerNum={num} player={players[idx]} style={{borderColor: 
+                            (players[idx].id === state.players[state.currentPlayer].id ? "maroon" : "black")}}/>
                     )
                 } else {
                     return(
-                        <div className={`player${num}`}>
+                        <div key={idx} className={`player${num}`}>
                             <div className={`rank${num}`}></div>
                         </div>
                     )
@@ -77,6 +87,11 @@ function Game({state, lobby}) {
                 <div className="event"></div>
             </div>
                 
+        </div>
+        <div style={{ "position": "fixed", "bottom": 0, "left": 10 }}>
+            <Button variant="outline-dark" disabled={!validateTurn()}
+                onClick={usePOSTRequest("/game/round/next", user.id, lobby)}>
+                Pass</Button>
         </div>
 
             {/* <div style={{ "position": "fixed", "bottom": 0, "right": "50%" }}>

@@ -92,8 +92,8 @@ function PlayerHand({ className, state, lobby }) {
                         </Col>) : <></>}
             </Row>
 
-            <div style={{ "position": "fixed", "bottom": 0, "left": 0 }}>
-                <Button>Play</Button>
+            <div style={{ "position": "fixed", "bottom": 0, "left": 80 }}>
+                <Button variant="outline-dark">Play</Button>
             </div>
         </div>
     )

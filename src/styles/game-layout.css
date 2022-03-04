@@ -16,8 +16,8 @@
       "player-info hand hand hand";
     min-width: 100%;
     height: 90%;
-    background-color: white;
     overflow-y: unset;
+    font-family:cursive;
 }
 
 .player-info { grid-area: player-info; }
@@ -28,6 +28,7 @@
   grid-area: hand;
   min-height: 0;
   min-width: 0;
+  border-style: solid;
 }
 
 .grid-a {
@@ -47,7 +48,7 @@
     grid-template-areas: 
       "rank1 ."; 
     grid-area: player1;
-    
+    border-style: dashed;
 }
 
 .rank1 { grid-area: rank1; }
@@ -62,6 +63,7 @@
     grid-area: player2;
     min-height: 0;
     min-width: 0;
+    border-style: dashed;
 }
 
 .rank2 { grid-area: rank2; }
@@ -77,6 +79,7 @@
     grid-area: player3;
     min-height: 0;
     min-width: 0;
+    border-style: dashed;
 }
 
 .rank3 { grid-area: rank3; }
@@ -92,13 +95,26 @@
     grid-area: player4;
     min-height: 0;
     min-width: 0;
+    border-style: dashed;
 }
 
 .rank4 { grid-area: rank4; }
 
-.discard { display: grid; grid-area: discard; }
+.discard { 
+  display: grid; 
+  grid-area: discard;
+  border-style: dashed;
+  border-bottom: 0;
+  border-left: 0;
+}
 
-.adventure-deck { display: grid; grid-area: adventure-deck; }
+.adventure-deck { 
+  display: grid; 
+  grid-area: adventure-deck; 
+  border-style: dashed;
+  border-bottom: 0;
+  border-right: 0;
+}
   
 .quest-event {  
     display: grid;
@@ -115,17 +131,16 @@
       "story-deck event"
       "story-deck event";
     grid-area: quest-event;
+    background-image: url("http://localhost:3000/background.png");
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 15vw;
 }
   
 .story-deck { grid-area: story-deck; }
   
 .event { grid-area: event; }
-
-.container div {
-  border-color: black;
-  border-radius: 0.01px;
-  border-style: dashed;
-}
 
 .card {
   background: transparent;
@@ -133,12 +148,25 @@
   z-index: 1;
 }
 
-.card:hover {
+.hand .card:hover {
   transform: translateY(-50px) scale(1.5) translateZ(0px);
   z-index: 2;
 }
 
+.card:hover {
+  transform: translateY(25px) scale(1.5) translateZ(0px);
+  z-index: 2;
+}
+
 .modalf{
+  height: 100vh !important;
+  width: auto !important;
+  max-height: 100vh !important;
+  max-width: 90vw !important;
+  white-space: pre-line;
+}
+
+.modalDiscard{
   height: 100vh !important;
   width: 90vw !important;
   max-height: 100vh !important;

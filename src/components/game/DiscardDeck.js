@@ -11,7 +11,7 @@ function DiscardDeck({className, discardDeck}) {
 
     return(
         <div className={`${className} grid-a`}>
-            <Modal dialogClassName="modalf" show={showModal} keyboard={false} onHide={switchModal}>
+            <Modal dialogClassName="modalDiscard" show={showModal} keyboard={false} onHide={switchModal}>
                 <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
                     <Modal.Title>Discarded Cards</Modal.Title>
                 </Modal.Header>
@@ -35,7 +35,7 @@ function DiscardDeck({className, discardDeck}) {
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <div style={{width: "6.4vw", height: "8.5vw", alignItems:"stretch", 
+            <div style={{width: "6.5vw", height: "9vw", alignItems:"stretch", 
                 borderStyle: "dotted", borderColor: "maroon"}}
                 onClick={switchModal}>
                 {discardDeck && discardDeck.length > 0 ?
