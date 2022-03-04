@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { useUser } from "../../context/UserContext";
 import PlayerHand from "../../components/game/PlayerHand";
 import { Button } from "react-bootstrap";
@@ -10,7 +10,7 @@ import Card from "../../components/game/Card";
 import DiscardDeck from "../../components/game/DiscardDeck";
 import { usePOSTRequest } from "../../components/hooks";
 
-function Game({state, lobby}) {
+function Game({ state, lobby }) {
     const { user } = useUser();
 
 
@@ -19,9 +19,9 @@ function Game({state, lobby}) {
 
     const getPlayerPlacement = () => {
         var aligned = []
-        for(let idx = 0; idx < state.players.length; idx++) {
+        for (let idx = 0; idx < state.players.length; idx++) {
             let player = state.players[idx]
-            if(player.id === user.id) {
+            if (player.id === user.id) {
                 return state.players.slice(idx, state.players.length).concat(aligned)
             }
             aligned.push(player)
@@ -41,74 +41,64 @@ function Game({state, lobby}) {
 
     return (
         <>
-        <div className="container">
-            {/* Add game-info component */}
-            <GameInfo className="game-info" state={state}/>
+            <div className="container">
+                {/* Add game-info component */}
+                <GameInfo className="game-info" state={state} />
 
-            {/* Add player-info component*/}
-            <PlayerInfo className="player-info" players={players} 
-                currentPlayer={state.players[state.currentPlayer]}/>
+                {/* Add player-info component*/}
+                <PlayerInfo className="player-info" players={players}
+                    currentPlayer={state.players[state.currentPlayer]} />
 
-            {/* Add player hand component*/}
-            <PlayerHand className="hand" state={state} lobby={lobby}/>
+                {/* Add player hand component*/}
+                <PlayerHand className="hand" state={state} lobby={lobby} />
 
-            {/* Add player components below with the given className */}
-            {playerAlign.map((num, idx) => {
-                if(players[idx]) {
-                    return(
-                        <Player key={idx} playerNum={num} player={players[idx]} style={{borderColor: 
-                            (players[idx].id === state.players[state.currentPlayer].id ? "maroon" : "black")}}/>
-                    )
-                } else {
-                    return(
-                        <div key={idx} className={`player${num}`}>
-                            <div className={`rank${num}`}></div>
-                        </div>
-                    )
-                }
-            })}
+                {/* Add player components below with the given className */}
+                {playerAlign.map((num, idx) => {
+                    if (players[idx]) {
+                        return (
+                            <Player key={idx} playerNum={num} player={players[idx]} style={{
+                                borderColor:
+                                    (players[idx].id === state.players[state.currentPlayer].id ? "maroon" : "black")
+                            }} />
+                        )
+                    } else {
+                        return (
+                            <div key={idx} className={`player${num}`}>
+                                <div className={`rank${num}`}></div>
+                            </div>
+                        )
+                    }
+                })}
 
-            {/* Add discard component*/}
-            <DiscardDeck className="discard" discardDeck={state.discardDeck}/>
+                {/* Add discard component*/}
+                <DiscardDeck className="discard" discardDeck={state.discardDeck} />
 
-            {/* Add adventure deck component or an image for the deck inside the div*/}
-            <div className="adventure-deck grid-a" 
-                onClick={usePOSTRequest("/game/round/draw", user.id, lobby)}>
-                <Card card={{typeId: "adventure"}} style={{width: "6vw"}}/>
-            </div>
+                {/* Add adventure deck component or an image for the deck inside the div*/}
+                <div className="adventure-deck grid-a"
+                    onClick={validateTurn() ? usePOSTRequest("/game/round/draw", user.id, lobby) : useCallback(() => { })}>
+                    <Card card={{ typeId: "adventure" }} style={{ width: "6vw" }} className={validateTurn() ? "card-clickable" : "card-disabled"} />
 
-            {/* Add game main component*/}
-            <div className="quest-event">
-                {/* Add story deck component or an image for the deck inside the div*/}
-                <div className="story-deck grid-a">
-                    <Card card={{typeId: "story"}} style={{width: "6vw"}}/>
                 </div>
-                {/* Add event component*/}
-                <div className="event"></div>
-            </div>
-                
-        </div>
-        <div style={{ "position": "fixed", "bottom": 0, "left": 10 }}>
-            <Button variant="outline-dark" disabled={!validateTurn()}
-                onClick={usePOSTRequest("/game/round/next", user.id, lobby)}>
-                Pass</Button>
-        </div>
 
-            {/* <div style={{ "position": "fixed", "bottom": 0, "right": "50%" }}>
-                <Button onClick={() => fetch(
-                    `/test/test1`, { method: "POST", body: lobby }
-                )}>11 Cards</Button>
-                <Button onClick={() => fetch(
-                    `/test/test2`, { method: "POST", body: lobby }
-                )}>12 Cards</Button>
-                                <Button onClick={() => fetch(
-                    `/test/test3`, { method: "POST", body: lobby }
-                )}>13 Cards</Button>
-            </div> */}
-            
+                {/* Add game main component*/}
+                <div className="quest-event">
+                    {/* Add story deck component or an image for the deck inside the div*/}
+                    <div className="story-deck grid-a">
+                        <Card card={{ typeId: "story" }} style={{ width: "6vw" }} className="card-static" />
+                    </div>
+                    {/* Add event component*/}
+                    <div className="event"></div>
+                </div>
+
+            </div>
+            <div style={{ "position": "fixed", "bottom": 0, "left": 10 }}>
+                <Button variant="outline-dark" disabled={!validateTurn()}
+                    onClick={usePOSTRequest("/game/round/next", user.id, lobby)}>
+                    Pass</Button>
+            </div>
         </>
     )
-    
+
 }
 
 export default React.memo(Game);

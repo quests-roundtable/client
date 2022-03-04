@@ -15,7 +15,7 @@ function Player({playerNum, player, style}) {
     return(
         <div className={`player${playerNum} grid-a`} style={style}>
             <div className= {`rank${playerNum} grid-a`}>
-                <Card card={player.rankCard} style={getStyle()} />
+                <Card card={player.rankCard} style={getStyle()} className="card-static" />
             </div>
         </div>
     )
