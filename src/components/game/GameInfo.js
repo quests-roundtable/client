@@ -8,10 +8,10 @@ function GameInfo({className, state}) {
             <Row style={{fontSize: "2vw"}}>
                 <b>Quests of the Round Table</b>
             </Row>
-            <Row style={{fontSize: "1vw", paddingTop: "1vw"}}>
+            <Row style={{fontSize: "1vw", paddingTop: "0.5vw"}}>
                 <div>Round</div>
             </Row>
-            <Row style={{fontSize: "1vw", paddingTop: "1vw"}}>
+            <Row style={{fontSize: "1vw", paddingTop: "0.5vw"}}>
                 <div>Player Turn</div>
             </Row>
         </Col>
