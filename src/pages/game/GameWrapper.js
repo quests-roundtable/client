@@ -1,20 +1,33 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useLayoutEffect, useState } from "react";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import Game from "./Game";
-import { SocketProvider, SocketContext } from "../../context/SocketContext";
+import { SocketProvider } from "../../context/SocketContext";
+import Lobby from "../Lobby";
+
+// const IN_PROGRESS = 1;
+const WAITING_LOBBY = 0;
 
 function GameWrapper() {
-  const [state, setState] = useState('No server message here.');
+  const [state, setState] = useState(useLocation().state);
+  const navigate = useNavigate();
   const { id } = useParams();
-  // const client = useContext(SocketContext);
 
-  console.log("rernderd")
+  useLayoutEffect(() => {
+    fetch(
+      `/game/${id}`, { method: "GET" }
+    ).then((res) => res.json()).then((data) => setState(data))
+  }, [])
+
   return (
     <SocketProvider lobby={id} setState={setState} >
-      <div>
-        <h1>Lobby: {id}</h1>
-        <Game state={state} lobby={id}/>
-      </div>
+        {state.gameStatus === WAITING_LOBBY ? (
+          <div>
+            <Lobby state={state} lobby={id}/>
+          </div>
+        ) : (
+          <Game state={state} lobby={id}/>
+        )
+        }
     </SocketProvider>
   );
 }

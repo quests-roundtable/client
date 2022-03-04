@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Back} from "../components/Back";
 import axios from "axios";
-axios.defaults.withCredentials = true;
+import "../styles/lobby.css"
 
 function Health() {
     const [health, setHealth] = useState("down");
@@ -12,9 +12,9 @@ function Health() {
           onLoad();
     })
     const getHealth = async () => {
-        fetch (`http://localhost:9090/actuator/health`, {mode: 'no-cors'}).then((res) => {
+        axios.get(`/actuator/health`).then((res) => {
             console.log(res);
-            setHealth(res.status === 0 ? "up": "down");
+            setHealth(res.status === 200 ? "up": "down");
         }).catch(err => alert(err));
         // const res = axios(`http://localhost:9090/actuator/health`);
         // setHealth(res.status);
@@ -22,9 +22,11 @@ function Health() {
 
 
     return (
-        <div>
-            <Back/>
-            {health}
+        <div className="lobby-div">
+            <div className="grid-div">
+                <Back className="back-bt"/>
+                <h3 className="lobby-margin"><b>Server is {health}.</b></h3>
+            </div>
         </div>
     )
 

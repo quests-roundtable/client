@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { useUser } from "../context/UserContext";
-import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
+import { Button, FormControl, InputGroup } from "react-bootstrap";
 import { useFields } from "../components/hooks";
 
 export function SetUsername() {
@@ -15,23 +15,22 @@ export function SetUsername() {
     }
 
     return (
-        <div>
-            <h1>Current name: {user && user.name}</h1>
-            <Form>
-                <Form.Label>Username</Form.Label>
-                <InputGroup>
+        <div style={{width: "40vw", margin: "auto"}}>
+            <h5>Player: {user && user.name}</h5>
+            <InputGroup className="mb-3">
+                    <InputGroup.Text id="basic-addon1">Username</InputGroup.Text>
                     <FormControl
                         id="name"
-                        autoFocus
+                        placeholder="username"
+                        aria-label="username"
+                        aria-describedby="basic-addon1"
                         value={fields.name}
                         onChange={handleFieldChange}
                     />
                     <Button disabled={!validateForm()} variant="outline-dark" type="submit" onClick={() => { 
-                        setUserName(fields.name);
-                        }}>Update</Button>
-
-                </InputGroup>
-            </Form>
+                        setUserName(fields.name)}}>
+                            Update</Button>
+            </InputGroup>
         </div>
     )
 }

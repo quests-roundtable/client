@@ -4,6 +4,7 @@ import { Container, Button } from "react-bootstrap"
 import { useUser } from "../context/UserContext";
 import { SetUsername } from "../components/SetUsername";
 import { Back } from "../components/Back";
+import "../styles/lobby.css"
 
 function CreateLobby(){
     const { userId } = useUser();
@@ -11,20 +12,24 @@ function CreateLobby(){
 
     const createGameLobby = useCallback(() => {
         if (userId) {
-            // const params = {playerId: userId};
             const params = userId;
             fetch(
                 `/game/create`, {method: "POST", body: params}
-            ).then((res) => res.json()).then((res) => navigate(`/game/${res.game.id}`)).catch(err => alert(err));
+            ).then((res) => res.json()).then((res) => navigate(`/game/${res.game.id}`, {state: res.game}))
+            .catch(err => alert(err));
         }
     }, [userId, navigate]);
 
     return (
-        <Container>
-            <Back/>
+        <div className="lobby-div">
+            <div>
+                <Back className="back-bt"/>
+                <h2 className="lobby-margin"><b>Lobby</b></h2>
+            </div>
             <SetUsername/>
-            <Button variant="outline-dark" type="submit" onClick={createGameLobby}>Create Lobby</Button>
-        </Container>
+            <Button className="lobby-bt" variant="outline-dark" type="submit" onClick={createGameLobby}>
+                Create Lobby</Button>
+        </div>
     )
 }
 

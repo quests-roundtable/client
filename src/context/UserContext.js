@@ -10,8 +10,8 @@ async function getUser() {
     const cookie = new Cookies();
     async function createNewUser() {
         console.log("create new user");
-        return fetch(`/players/create`).then((res) => res.json()).then((res) => {
-            cookie.set("userId", res.id, { sameSite: "lax" });
+        return fetch(`/user/create`).then((res) => res.json()).then((res) => {
+            cookie.set("userId", res.id, { sameSite: "strict" });
             return res;
         });
     }
@@ -20,7 +20,7 @@ async function getUser() {
     if (cookieId !== undefined) {
         // alert(`Cookie exists! fetching user ${cookieId}`)
         console.log(`cookie exists fetching user ${cookieId}`)
-        const user = await fetch(`/players/player/${cookieId}`).then((res) => res.json()).catch((e) => {
+        const user = await fetch(`/user/user/${cookieId}`).then((res) => res.json()).catch((e) => {
             console.log(e);
             createNewUser();
         });
@@ -38,16 +38,15 @@ function UserContextProvider({ children }) {
 
     useEffect(() => getUser().then((res) => setUser(res)), []);
 
-    const setUserName = useCallback(
-        async (username) => {
-            console.log(`Setting name to ${username}.`)
-            if (user) {
-                const params = {id: user.id, name: username};
-                const res = await axios.post(`/players/setName`, params);
-                setUser(res);
-            }
-        }, [user]
-    )
+    const setUserName = useCallback((username) => {
+        const params = {id: user.id, name: username};
+        axios.post(`/user/setName`, params).then((res) => {
+            setUser(res.data);
+        }).catch((err) => {
+            console.log("Set username error: " + err);
+        }
+        )
+    }, [user])
 
     useEffect(() => {
         if (user && user.id !== userId) {
