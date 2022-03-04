@@ -8,6 +8,7 @@ import "../../styles/game-layout.css"
 import Player from "../../components/game/Player";
 import Card from "../../components/game/Card";
 import DiscardDeck from "../../components/game/DiscardDeck";
+import { usePOSTRequest } from "../../components/hooks";
 
 function Game({state, lobby}) {
     const { user } = useUser();
@@ -58,10 +59,11 @@ function Game({state, lobby}) {
             })}
 
             {/* Add discard component*/}
-            <DiscardDeck className="discard" discardDeck={players[0].playerHand}/>
+            <DiscardDeck className="discard" discardDeck={state.discardDeck}/>
 
             {/* Add adventure deck component or an image for the deck inside the div*/}
-            <div className="adventure-deck grid-a">
+            <div className="adventure-deck grid-a" 
+                onClick={usePOSTRequest("/game/round/draw", user.id, lobby)}>
                 <Card card={{typeId: "adventure"}} style={{width: "6vw"}}/>
             </div>
 

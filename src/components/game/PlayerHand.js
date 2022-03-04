@@ -3,6 +3,7 @@ import Card from "./Card";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 import { useUser } from "../../context/UserContext";
 import { propTypes } from "react-bootstrap/esm/Image";
+import axios from "axios";
 
 
 
@@ -74,9 +75,9 @@ function PlayerHand({ className, state, lobby }) {
                     <Row>
                         {cards && cards.length > 0 ?
                             cards.map((card) =>
-                                <Col key={card.id} onClick={() => fetch(
-                                    `/test/test2`, { method: "POST", body: lobby }
-                                )}>
+                                <Col key={card.id} onClick={() => axios.post(
+                                    `/game/round/discard`, 
+                                    { data: card.id, lobby: lobby, playerId: user.id})}>
                                     <Card card={card} style={getStyle(card.id)} />
                                 </Col>) : <></>}
                     </Row>
