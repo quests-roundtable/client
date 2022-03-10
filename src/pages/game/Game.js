@@ -91,11 +91,7 @@ function Game({ state, lobby }) {
                 </div>
 
             </div>
-            <div style={{ "position": "fixed", "bottom": 0, "left": 10 }}>
-                <Button variant="outline-dark" disabled={!validateTurn()}
-                    onClick={usePOSTRequest("/game/round/next", user.id, lobby)}>
-                    Pass</Button>
-            </div>
+
         </>
     )
 

@@ -27,7 +27,7 @@ export function usePOSTRequest(url, object, lobby, playerId = null) {
         ).then(res => {
           console.log(res)
         }).catch(err => {
-          alert(err)
+          alert(err.message)
         });
   }, [url, object, lobby]);
 
