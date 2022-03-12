@@ -46,7 +46,7 @@
     grid-template-rows: 1fr; 
     gap: 0px 0px; 
     grid-template-areas: 
-      "rank1 ."; 
+      "rank1 playerMove"; 
     grid-area: player1;
     border-style: dashed;
 }
@@ -59,7 +59,7 @@
     grid-template-rows: 1fr; 
     gap: 0px 0px; 
     grid-template-areas: 
-      "rank2 ."; 
+      "rank2 playerMove"; 
     grid-area: player2;
     min-height: 0;
     min-width: 0;
@@ -75,7 +75,7 @@
     gap: 0px 0px; 
     grid-template-areas: 
       "rank3"
-      "."; 
+      "playerMove"; 
     grid-area: player3;
     min-height: 0;
     min-width: 0;
@@ -91,7 +91,7 @@
     gap: 0px 0px; 
     grid-template-areas: 
       "rank4"
-      "."; 
+      "playerMove"; 
     grid-area: player4;
     min-height: 0;
     min-width: 0;
@@ -99,6 +99,18 @@
 }
 
 .rank4 { grid-area: rank4; }
+
+.playerMoveH {
+    grid-area: playerMove;
+    display: flex;
+}
+
+.playerMoveV {
+    grid-area: playerMove;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
 
 .discard { 
   display: grid; 
@@ -118,8 +130,8 @@
   
 .quest-event {  
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 3fr;
+    grid-template-rows: 1fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     justify-content: center;
@@ -127,9 +139,9 @@
     justify-items: center;
     align-items: center;
     grid-template-areas:
-      "story-deck event"
-      "story-deck event"
-      "story-deck event";
+      "story-deck story-card event"
+      "story-deck story-card event"
+      "story-deck story-card event";
     grid-area: quest-event;
     background-image: url("http://localhost:3000/background.png");
     background-color: white;
@@ -139,6 +151,8 @@
 }
   
 .story-deck { grid-area: story-deck; }
+
+.story-card { grid-area: story-card; }
   
 .event { grid-area: event; }
 

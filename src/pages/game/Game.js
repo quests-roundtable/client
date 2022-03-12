@@ -9,6 +9,8 @@ import Player from "../../components/game/Player";
 import Card from "../../components/game/Card";
 import DiscardDeck from "../../components/game/DiscardDeck";
 import { usePOSTRequest } from "../../components/hooks";
+import GameBoard from "../../components/game/GameBoard";
+import { ROUND, QUEST, TOURNAMENT } from "../../util/constants"
 
 function Game({ state, lobby }) {
     const { user } = useUser();
@@ -31,9 +33,23 @@ function Game({ state, lobby }) {
 
     const players = getPlayerPlacement();
 
+    // Round type
+    const getRoundType = () => {
+        if(state.quest) {
+            return QUEST
+        } else if (state.tournament) {
+            return TOURNAMENT
+        } else {
+            return ROUND
+        }
+    }
+
+    const roundType = getRoundType();
 
     // Current Player
-    const currentPlayer = state.players[state.currentPlayer]
+    const currentPlayer = roundType == ROUND ? state.players[state.currentPlayer] 
+                        : roundType == TOURNAMENT ? state.players[state.tournament.currentPlayer]
+                        : state.players[state.quest.currentPlayer]
 
     const validateTurn = () => {
         return user.id === currentPlayer.id
@@ -43,11 +59,11 @@ function Game({ state, lobby }) {
         <>
             <div className="container">
                 {/* Add game-info component */}
-                <GameInfo className="game-info" state={state} />
+                <GameInfo className="game-info" state={state} roundType={roundType}/>
 
                 {/* Add player-info component*/}
                 <PlayerInfo className="player-info" players={players}
-                    currentPlayer={state.players[state.currentPlayer]} />
+                    currentPlayer={currentPlayer} />
 
                 {/* Add player hand component*/}
                 <PlayerHand className="hand" state={state} lobby={lobby} />
@@ -56,9 +72,10 @@ function Game({ state, lobby }) {
                 {playerAlign.map((num, idx) => {
                     if (players[idx]) {
                         return (
-                            <Player key={idx} playerNum={num} player={players[idx]} style={{
-                                borderColor:
-                                    (players[idx].id === state.players[state.currentPlayer].id ? "maroon" : "black")
+                            <Player key={idx} playerNum={num} player={players[idx]} roundType={roundType} 
+                                result={state.quest?.roundResults?.results[players[idx].id]}
+                                style={{ borderColor:
+                                    (players[idx].id === currentPlayer ? "maroon" : "black")
                             }} />
                         )
                     } else {
@@ -81,14 +98,7 @@ function Game({ state, lobby }) {
                 </div>
 
                 {/* Add game main component*/}
-                <div className="quest-event">
-                    {/* Add story deck component or an image for the deck inside the div*/}
-                    <div className="story-deck grid-a">
-                        <Card card={{ typeId: "story" }} style={{ width: "6vw" }} className="card-static" />
-                    </div>
-                    {/* Add event component*/}
-                    <div className="event"></div>
-                </div>
+                <GameBoard state={state} roundType={roundType}/>
 
             </div>
 
