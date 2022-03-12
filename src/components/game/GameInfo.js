@@ -2,12 +2,14 @@ import React from "react";
 import { Col, Row, Button } from "react-bootstrap";
 import { useUser } from "../../context/UserContext";
 import { usePOSTRequest } from "../../components/hooks";
-import { QUEST, TOURNAMENT } from "../../util/constants"
+import { ROUND, QUEST, TOURNAMENT } from "../../util/constants"
 
 function GameInfo({className, state, roundType}) {
     const { user } = useUser();
 
-    const currentPlayer = state.players[state.currentPlayer]
+    const currentPlayer = roundType == ROUND ? state.players[state.currentPlayer] 
+                        : roundType == TOURNAMENT ? state.players[state.tournament.currentPlayer]
+                        : state.players[state.quest.currentPlayer]
 
     return(
         <Col className={className} style={{padding: "0.5vw", margin:"0 0%"}}>
@@ -33,7 +35,12 @@ function GameInfo({className, state, roundType}) {
             </Row>
 
             <Row style={{fontSize: "1vw", paddingTop: "1vw"}}>
-                <div>Event Info</div>
+                <div>
+                    {state.event ?
+                        "Event Info"
+                        : <></>
+                    }
+                </div>
             </Row>
         </Col>
     )

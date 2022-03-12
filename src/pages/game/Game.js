@@ -76,7 +76,7 @@ function Game({ state, lobby }) {
                             <Player key={idx} playerNum={num} player={players[idx]} roundType={roundType} 
                                 result={state.quest?.roundResults?.results[players[idx].id]}
                                 style={{ borderColor:
-                                    (players[idx].id === currentPlayer ? "maroon" : "black")
+                                    (players[idx].id === currentPlayer.id ? "maroon" : "black")
                             }} />
                         )
                     } else {
@@ -92,8 +92,8 @@ function Game({ state, lobby }) {
                 <DiscardDeck className="discard" discardDeck={state.discardDeck} />
 
                 {/* Add adventure deck component or an image for the deck inside the div*/}
-                <div className="adventure-deck grid-a"
-                    onClick={validateTurn() ? usePOSTRequest("/game/round/draw", user.id, lobby) : useCallback(() => { })}>
+                <div className="adventure-deck grid-a">
+                    {/* onClick={validateTurn() ? usePOSTRequest("/game/round/draw", user.id, lobby) : useCallback(() => { })}> */}
                     <Card card={{ typeId: "adventure" }} style={{ width: "6vw" }} className={validateTurn() ? "card-clickable" : "card-disabled"} />
 
                 </div>
