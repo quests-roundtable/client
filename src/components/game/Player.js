@@ -35,9 +35,6 @@ function Player({playerNum, player, style, roundType, result}) {
                     })
                 : <></>
                 }
-                <Card card={{ typeId: "adventure" }} style={getStyle()}/>
-                <Card card={{ typeId: "adventure" }} style={getStyle()} />
-                <Card card={{ typeId: "adventure" }} style={getStyle()} />
             </div>
         </div>
     )

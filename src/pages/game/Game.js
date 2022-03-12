@@ -66,7 +66,8 @@ function Game({ state, lobby }) {
                     currentPlayer={currentPlayer} />
 
                 {/* Add player hand component*/}
-                <PlayerHand className="hand" state={state} lobby={lobby} />
+                <PlayerHand className="hand" state={state} lobby={lobby} 
+                    roundType={roundType} currentPlayer={currentPlayer}/>
 
                 {/* Add player components below with the given className */}
                 {playerAlign.map((num, idx) => {
