@@ -114,24 +114,44 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
 
   const cardsToQuestStages = () => {
     var stages = [];
-    var hand = [...selected];
     var stage = [];
+    var hand = [...selected];
+    if (hand.length === 0)
+      return []
+
+    // for debugging
+    var nameStages = [];
+    var nameStage = [];
+
     while (hand.length > 0) {
       const card = hand.shift();
       if (card.type === "Weapon") {
         stage.push(card.id);
+        nameStage.push(card.name);
       } else {
-        if (stage.length > 0) stages.push(stage);
+        if (stage.length > 0){
+          stages.push(stage);
+          nameStages.push(nameStage);
+        }
         stage = [card.id];
+        nameStage = [card.name]
       }
     }
-    return stages;
+    if (stage.length > 0){
+      stages.push(stage);
+      nameStages.push(nameStage);
+    }
+
+    console.log("Quest Stage:", nameStages);
+    console.log("Payload: ", stages);
+
+    return stages
   };
 
   function getStyle(card) {
     const selectedSoFar = [...selected];
     var style = {
-      width: "100%",
+      width: "5vw",
       transition: "250ms",
     };
     if (selectedSoFar.includes(card)) {
@@ -277,8 +297,8 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
       <Row>
         {availableCards && availableCards.length > 0 ? (
           availableCards.map((card) => (
-            <Col key={card.id} onClick={(e) => addToSelected(e, card.id)}>
-              <Card card={card} style={getStyle(card.id)} />
+            <Col key={card.id} onClick={(e) => addToSelected(e, card)}>
+              <Card card={card} style={getStyle(card)} />
             </Col>
           ))
         ) : (
