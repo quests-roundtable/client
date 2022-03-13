@@ -73,10 +73,10 @@ function Game({ state, lobby }) {
                 {playerAlign.map((num, idx) => {
                     if (players[idx]) {
                         return (
-                            <Player key={idx} playerNum={num} player={players[idx]} roundType={roundType} 
-                                result={state.quest?.roundResults?.results[players[idx].id]}
+                            <Player key={idx} state= {state} playerNum={num} player={players[idx]} roundType={roundType} 
+                                result={state.quest?.roundResult?.results[players[idx].id]}
                                 style={{ borderColor:
-                                    (players[idx].id === currentPlayer.id ? "maroon" : "black")
+                                    (players[idx].id === currentPlayer?.id ? "maroon" : "black")
                             }} />
                         )
                     } else {

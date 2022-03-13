@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Card from "./Card";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 import { useUser } from "../../context/UserContext";
 import { propTypes } from "react-bootstrap/esm/Image";
 import axios from "axios";
 import { usePOSTRequest } from "../hooks";
-import { ROUND, QUEST, TOURNAMENT, WAITING_SPONSOR, WAITING_PLAYERS } from "../../util/constants";
+import {
+  ROUND,
+  QUEST,
+  TOURNAMENT,
+  WAITING_SPONSOR,
+  WAITING_PLAYERS,
+  SPONSOR,
+  PLAYER,
+} from "../../util/constants";
 
 function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   const { user } = useUser();
@@ -102,9 +110,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
 
       // check if number of stages is valid
       if (valid) {
-        valid =
-          cardsToQuestStages().length ==
-          state?.quest?.card?.questStages;
+        valid = cardsToQuestStages().length == state?.quest?.card?.questStages;
       }
 
       return valid;
@@ -116,8 +122,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
     var stages = [];
     var stage = [];
     var hand = [...selected];
-    if (hand.length === 0)
-      return []
+    if (hand.length === 0) return [];
 
     // for debugging
     var nameStages = [];
@@ -129,15 +134,15 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
         stage.push(card.id);
         nameStage.push(card.name);
       } else {
-        if (stage.length > 0){
+        if (stage.length > 0) {
           stages.push(stage);
           nameStages.push(nameStage);
         }
         stage = [card.id];
-        nameStage = [card.name]
+        nameStage = [card.name];
       }
     }
-    if (stage.length > 0){
+    if (stage.length > 0) {
       stages.push(stage);
       nameStages.push(nameStage);
     }
@@ -145,7 +150,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
     console.log("Quest Stage:", nameStages);
     console.log("Payload: ", stages);
 
-    return stages
+    return stages;
   };
 
   function getStyle(card) {
@@ -225,14 +230,24 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
           <Row>
             <Col>
               <Button
-                onClick={usePOSTRequest("/quest/round/join", user.id, lobby)}
+                onClick={usePOSTRequest(
+                  "/quest/round/join",
+                  true,
+                  lobby,
+                  user.id
+                )}
               >
                 Yes
               </Button>
             </Col>
             <Col>
               <Button
-                onClick={usePOSTRequest("/game/round/next", user.id, lobby)}
+                onClick={usePOSTRequest(
+                  "/game/round/next",
+                  false,
+                  lobby,
+                  user.id
+                )}
               >
                 No
               </Button>
@@ -270,7 +285,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
                   lobby
                 )}
               >
-                Yes
+                Yesf
               </Button>
             </Col>
             <Col>
@@ -287,12 +302,21 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   }
 
   function renderHand() {
-    const questCardTypes = ["Foe", "Weapon", "Test"];
-    // todo: do we want to limit sponsor cards automatically?
-    const availableCards = isSponsoringQuest()
-      ? cards.filter((card) => questCardTypes.includes(card.type))
-      : cards;
-    // const availableCards = cards
+    const sponsorQuestCardTypes = ["Foe", "Weapon", "Test"];
+    const playingQuestCardTypes = ["Weapon", "Ally", "Amour"];
+
+    var availableCards = [];
+    if (isSponsoringQuest()) {
+      availableCards = cards.filter((card) =>
+        sponsorQuestCardTypes.includes(card.type)
+      );
+    } else if (player.questInfo?.role === PLAYER) {
+      availableCards = cards.filter((card) =>
+        playingQuestCardTypes.includes(card.type)
+      );
+    } else {
+      availableCards = cards;
+    }
     return (
       <Row>
         {availableCards && availableCards.length > 0 ? (
@@ -318,7 +342,22 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
     }
     return "/game/round/next";
   }
-
+  
+  function POSTRequest(url, object, lobby, playerId = null) {
+    setSelected([]);
+    axios.post(url, 
+          playerId ? 
+          { data: object, 
+            lobby: lobby,
+            playerId: playerId}
+          : { data: object, 
+            lobby: lobby}
+          ).then(res => {
+            console.log(res)
+          }).catch(err => {
+            alert(`Error ${err?.response?.status}: ${err?.response?.data?.message}`)
+          });
+  }
 
   return (
     <div className={className}>
@@ -331,8 +370,9 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
           <div style={{ position: "fixed", bottom: 0, left: 80 }}>
             <Button
               disabled={!validateTurn() || !canFormQuest()}
-              onClick={usePOSTRequest(
-                "/quest/round/sponsor", cardsToQuestStages(), lobby, user.id)}
+              onClick={() => POSTRequest(
+                "/quest/round/sponsor", cardsToQuestStages(), lobby, user.id
+              )}
               variant="outline-dark"
             >
               Sponsor
@@ -350,21 +390,33 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
         </>
       ) : (
         <>
-            <div style={{ position: "fixed", bottom: 0, left: 80 }}>
-                <Button
-                    disabled={roundType == ROUND ? true : !validateTurn()} variant="outline-dark"
-                    onClick={usePOSTRequest(
-                        getPlayUrl(), selected, lobby, user.id)}>
-                    Play
-                </Button>
-            </div>
-            <div style={{ position: "fixed", bottom: 0, left: 10 }}>
+          <div style={{ position: "fixed", bottom: 0, left: 80 }}>
             <Button
-                disabled={!validateTurn()} variant="outline-dark"
-                onClick={usePOSTRequest("/game/round/next", user.id, lobby)}>
-                Pass
+              disabled={
+                roundType == ROUND
+                  ? true
+                  : (!validateTurn() || player.questInfo?.role === SPONSOR)
+              }
+              variant="outline-dark"
+              onClick={() => POSTRequest(
+                getPlayUrl(),
+                selected.map((card) => card.id),
+                lobby,
+                user.id
+              )}
+            >
+              Play
             </Button>
-            </div>
+          </div>
+          <div style={{ position: "fixed", bottom: 0, left: 10 }}>
+            <Button
+              disabled={!validateTurn()}
+              variant="outline-dark"
+              onClick={usePOSTRequest("/game/round/next", user.id, lobby)}
+            >
+              Pass
+            </Button>
+          </div>
         </>
       )}
     </div>
