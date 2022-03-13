@@ -33,7 +33,7 @@ function JoinLobby(){
                 (res) => res.data
             ).then(
                 (lobby) => navigate(`/game/${lobby.game.id}`, {state: lobby.game})
-            ).catch((err) => alert(`Error ${err.response.status}: ${err.response.data.message}`))
+            ).catch((err) => alert(`Error ${err?.response?.status}: ${err?.response?.data?.message}`))
         }
     }, [userId, navigate, fields.lobbyName]);
 
@@ -47,7 +47,7 @@ function JoinLobby(){
                 (res) => res.data
             ).then(
                 (lobby) => navigate(`/game/${lobby.game.id}`, {state: lobby.game})
-            ).catch((err) => alert(`Error ${err.response.status}: ${err.response.data.message}`))
+            ).catch((err) => alert(`Error ${err?.response?.status}: ${err?.response?.data?.message}`))
         }
     }, [userId, navigate]);
 
