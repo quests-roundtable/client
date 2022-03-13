@@ -99,6 +99,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   function canFormQuest() {
     if (selected.length > 0) {
       if (selected[0].type === "Weapon") return false;
+      if (selected.filter((card) => card.type === "Test").length > 1) return false;
       var previous = null;
       var valid = true;
       selected.forEach((card) => {
@@ -211,44 +212,21 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
 
   function renderJoinQuestModal() {
     return (
-      <Modal
-        centered
-        show={isJoiningQuest()}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+      <Modal centered show={isJoiningQuest()} backdrop="static" keyboard={false}>
+        <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
           <Modal.Title>{`Join Quest?`} </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
           <Row>
             <Col>
-              <Button
-                onClick={usePOSTRequest(
-                  "/quest/round/join",
-                  true,
-                  lobby,
-                  user.id
-                )}
-              >
+              <Button variant="outline-dark"
+                onClick={usePOSTRequest("/quest/round/join", true, lobby, user.id)}>
                 Yes
               </Button>
             </Col>
             <Col>
-              <Button
-                onClick={usePOSTRequest(
-                  "/game/round/next",
-                  false,
-                  lobby,
-                  user.id
-                )}
-              >
+              <Button variant="outline-dark"
+                onClick={usePOSTRequest("/quest/round/join", false, lobby, user.id)}>
                 No
               </Button>
             </Col>
@@ -260,38 +238,21 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
 
   function renderJoinTournamentModal() {
     return (
-      <Modal
-        centered
-        show={isJoiningTournament()}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+      <Modal centered show={isJoiningTournament()} backdrop="static" keyboard={false}>
+        <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Modal.Title>{`Join Tournament?`} </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
           <Row>
             <Col>
-              <Button
-                onClick={usePOSTRequest(
-                  "/tournament/round/join",
-                  user.id,
-                  lobby
-                )}
-              >
-                Yesf
+              <Button variant="outline-dark"
+                onClick={usePOSTRequest("/tournament/round/join", true, lobby, user.id)}>
+                Yes
               </Button>
             </Col>
             <Col>
-              <Button
-                onClick={usePOSTRequest("/game/round/next", user.id, lobby)}
-              >
+              <Button variant="outline-dark"
+                onClick={usePOSTRequest("/tournament/round/join", false, lobby, user.id)}>
                 No
               </Button>
             </Col>
@@ -306,14 +267,18 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
     const playingQuestCardTypes = ["Weapon", "Ally", "Amour"];
 
     var availableCards = [];
-    if (isSponsoringQuest()) {
-      availableCards = cards.filter((card) =>
-        sponsorQuestCardTypes.includes(card.type)
-      );
-    } else if (player.questInfo?.role === PLAYER) {
-      availableCards = cards.filter((card) =>
-        playingQuestCardTypes.includes(card.type)
-      );
+    if(validateTurn()) {
+      if (isSponsoringQuest() && validateTurn()) {
+        availableCards = cards.filter((card) =>
+          sponsorQuestCardTypes.includes(card.type)
+        );
+      } else if (player.questInfo?.role === PLAYER) {
+        availableCards = cards.filter((card) =>
+          playingQuestCardTypes.includes(card.type)
+        );
+      } else {
+        availableCards = cards;
+      }
     } else {
       availableCards = cards;
     }

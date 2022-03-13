@@ -14,8 +14,9 @@ function PlayerInfo({className, players, currentPlayer}) {
         <Col className={className} style={{width: "90%"}}>
             {players.map((player, index) => {
                 return(
-                    <Row key={index} style={{border: "double", margin:"0 1%", 
-                        borderColor: (player.id === currentPlayer.id ? "maroon" : "black")}}>
+                    <Row key={index} style={{margin:"0 1%", 
+                        border: (player.id === currentPlayer.id ? "solid" : "double"),
+                        borderColor: (player.id === currentPlayer.id ? "darkRed" : "black")}}>
                         <Col xs={3} style={{padding: "15% 0 5% 5%"}}>
                             <img className="card-static" style={{width: "90%"}}
                                 src={`http://localhost:3000/cards/shields1.png`} />

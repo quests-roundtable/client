@@ -75,8 +75,9 @@ function Game({ state, lobby }) {
                         return (
                             <Player key={idx} state= {state} playerNum={num} player={players[idx]} roundType={roundType} 
                                 result={state.quest?.roundResult?.results[players[idx].id]}
-                                style={{ borderColor:
-                                    (players[idx].id === currentPlayer?.id ? "maroon" : "black")
+                                style={{ 
+                                    borderColor: (players[idx].id === currentPlayer?.id ? "darkRed" : "black"),
+                                    borderStyle: (players[idx].id === currentPlayer?.id ? "solid" : "dashed")
                             }} />
                         )
                     } else {
