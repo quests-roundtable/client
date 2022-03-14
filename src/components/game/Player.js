@@ -35,11 +35,13 @@ function Player({state, playerNum, player, style, roundType, result}) {
                             <Card key={idx} card={card} style={getStyle()}/>
                         )
                     })
+                    : (roundType === TOURNAMENT ? 
+                    (moveInfo?.numMoveCards > 0 ? <Card card={{ typeId: "adventure" }} style={getStyle()}/> : <></>)
                     : [...Array(moveInfo?.numMoveCards)].map((x, i) => {
                         return(
                             <Card key={i} card={{ typeId: "adventure" }} style={getStyle()}/>
                         )
-                    }))
+                    })))
                 : <></>
                 }
             </div>

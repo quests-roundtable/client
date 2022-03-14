@@ -15,3 +15,7 @@ export const TEST_STAGE = 5;
 // QUEST ROLE CONSTANTS
 export const SPONSOR = 0;
 export const PLAYER = 1;
+
+// GAME CONSTANTS
+export const WAITING_LOBBY = 0;
+export const GAME_OVER = 2;
