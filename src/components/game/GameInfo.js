@@ -19,7 +19,8 @@ function GameInfo({className, state, roundType}) {
                         state.quest.roundResult?.results[player.id] 
                         : (state.tournament?.roundStatus === ROUND_END ?
                         state.tournament.roundResult?.results[player.id] : null)
-
+    console.log("roundType:", roundType)
+    console.log("state:", state)
     return(
         <Col className={className} style={{padding: "0.5vw", margin:"0 0%"}}>
             <Row style={{fontSize: "1.3vw", fontStyle: "italic"}}>

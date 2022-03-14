@@ -52,14 +52,6 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
     );
   };
 
-  const isEndOfQuestStage = () => {
-    return (
-      validateTurn() &&
-      state.currentPlayer === state.sponsorIndex &&
-      state.roundStatus == WAITING_PLAYERS
-    );
-  };
-
   const isSponsoringQuest = () => {
     return (
       validateTurn() &&
