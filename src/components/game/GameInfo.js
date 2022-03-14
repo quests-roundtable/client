@@ -19,6 +19,7 @@ function GameInfo({className, state, roundType}) {
                         state.quest.roundResult?.results[player.id] 
                         : (state.tournament?.roundStatus === ROUND_END ?
                         state.tournament.roundResult?.results[player.id] : null)
+    console.log("roundEnd:", roundEnd)
     console.log("roundType:", roundType)
     console.log("state:", state)
     return(

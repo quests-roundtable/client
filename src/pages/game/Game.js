@@ -10,7 +10,7 @@ import Card from "../../components/game/Card";
 import DiscardDeck from "../../components/game/DiscardDeck";
 import { usePOSTRequest } from "../../components/hooks";
 import GameBoard from "../../components/game/GameBoard";
-import { ROUND, QUEST, TOURNAMENT } from "../../util/constants"
+import { ROUND, QUEST, TOURNAMENT, GAME_OVER } from "../../util/constants"
 
 function Game({ state, lobby }) {
     const { user } = useUser();
@@ -55,6 +55,20 @@ function Game({ state, lobby }) {
         return user.id === currentPlayer.id
     }
 
+    const getResult = (idx) => {
+        if (state.quest?.roundResult){
+            return state.quest?.roundResult?.results[players[idx].id]
+        } else if (state.tournament?.roundResult){
+            return state.tournament?.roundResult?.results[players[idx].id]
+        } else {
+            return null;
+        }
+    }
+
+    if(state.gameStatus === GAME_OVER) {
+        alert("Game is over!");
+    }
+
     return (
         <>
             <div className="container">
@@ -74,7 +88,7 @@ function Game({ state, lobby }) {
                     if (players[idx]) {
                         return (
                             <Player key={idx} state= {state} playerNum={num} player={players[idx]} roundType={roundType} 
-                                result={state.quest?.roundResult?.results[players[idx].id]}
+                                result={getResult(idx)}
                                 style={{ 
                                     borderColor: (players[idx].id === currentPlayer?.id ? "darkRed" : "black"),
                                     borderStyle: (players[idx].id === currentPlayer?.id ? "solid" : "dashed")

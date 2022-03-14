@@ -13,6 +13,8 @@ import {
   WAITING_PLAYERS,
   SPONSOR,
   PLAYER,
+  IN_PROGRESS,
+  TEST_STAGE
 } from "../../util/constants";
 import QuestSetup from "./QuestSetup";
 
@@ -35,6 +37,10 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   const validateTurn = () => {
     return user.id === currentPlayer.id;
   };
+
+  const isPlayable = () => {
+    return state.quest?.roundStatus === IN_PROGRESS || state.tournament?.roundStatus === IN_PROGRESS || state.quest?.roundStatus === TEST_STAGE
+  }
 
   const isJoiningQuest = () => {
     return (
@@ -289,7 +295,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
               disabled={
                 roundType == ROUND
                   ? true
-                  : (!validateTurn() || player.questInfo?.role === SPONSOR)
+                  : (!validateTurn() || player.questInfo?.role === SPONSOR || !isPlayable())
               }
               variant="outline-dark"
               onClick={() => POSTRequest(
