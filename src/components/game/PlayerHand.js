@@ -14,6 +14,7 @@ import {
   SPONSOR,
   PLAYER,
 } from "../../util/constants";
+import QuestSetup from "./QuestSetup";
 
 function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   const { user } = useUser();
@@ -22,6 +23,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
     : null;
   const cards = player && player.playerHand ? player.playerHand : [];
   const [selected, setSelected] = useState([]);
+  const [showSetup, setShowSetup] = useState(false);
 
   const moveInfo =
     roundType == QUEST
@@ -92,66 +94,6 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
     const testCards = selected.filter((card) => card.type === "Test");
     console.log("questcards.length", questCards.length, "numstages", numStages);
     return questCards.length === numStages && testCards.length <= 1;
-  };
-
-  // if order of cards can be formed into quest stages
-  // const canFormQuest = (cardList, numStages) => {
-  function canFormQuest() {
-    if (selected.length > 0) {
-      if (selected[0].type === "Weapon") return false;
-      if (selected.filter((card) => card.type === "Test").length > 1) return false;
-      var previous = null;
-      var valid = true;
-      selected.forEach((card) => {
-        if (previous !== null) {
-          if (previous.type === "Test" && card.type === "Weapon") valid = false;
-        }
-        previous = card;
-      });
-
-      // check if number of stages is valid
-      if (valid) {
-        valid = cardsToQuestStages().length == state?.quest?.card?.questStages;
-      }
-
-      return valid;
-    }
-    return false;
-  }
-
-  const cardsToQuestStages = () => {
-    var stages = [];
-    var stage = [];
-    var hand = [...selected];
-    if (hand.length === 0) return [];
-
-    // for debugging
-    var nameStages = [];
-    var nameStage = [];
-
-    while (hand.length > 0) {
-      const card = hand.shift();
-      if (card.type === "Weapon") {
-        stage.push(card.id);
-        nameStage.push(card.name);
-      } else {
-        if (stage.length > 0) {
-          stages.push(stage);
-          nameStages.push(nameStage);
-        }
-        stage = [card.id];
-        nameStage = [card.name];
-      }
-    }
-    if (stage.length > 0) {
-      stages.push(stage);
-      nameStages.push(nameStage);
-    }
-
-    console.log("Quest Stage:", nameStages);
-    console.log("Payload: ", stages);
-
-    return stages;
   };
 
   function getStyle(card) {
@@ -263,16 +205,11 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   }
 
   function renderHand() {
-    const sponsorQuestCardTypes = ["Foe", "Weapon", "Test"];
     const playingQuestCardTypes = ["Weapon", "Ally", "Amour"];
 
     var availableCards = [];
     if(validateTurn()) {
-      if (isSponsoringQuest() && validateTurn()) {
-        availableCards = cards.filter((card) =>
-          sponsorQuestCardTypes.includes(card.type)
-        );
-      } else if (player.questInfo?.role === PLAYER) {
+      if (player.questInfo?.role === PLAYER) {
         availableCards = cards.filter((card) =>
           playingQuestCardTypes.includes(card.type)
         );
@@ -332,12 +269,12 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
       {renderHand()}
       {isSponsoringQuest() ? (
         <>
+          <QuestSetup state={state} lobby={lobby} player={player} showSetup={showSetup}
+            setShowSetup={setShowSetup}/>
           <div style={{ position: "fixed", bottom: 0, left: 80 }}>
             <Button
-              disabled={!validateTurn() || !canFormQuest()}
-              onClick={() => POSTRequest(
-                "/quest/round/sponsor", cardsToQuestStages(), lobby, user.id
-              )}
+              disabled={!validateTurn()}
+              onClick={(() => setShowSetup(true))}
               variant="outline-dark"
             >
               Sponsor

@@ -18,7 +18,7 @@ function Player({state, playerNum, player, style, roundType, result}) {
 
     const event = roundType == QUEST ? state.quest : 
         roundType == TOURNAMENT ? state.tournament : null
-    console.log(moveInfo?.numMoveCards)
+
     return(
         <div className={`player${playerNum} grid-a`} style={style}>
             <div className= {`rank${playerNum} grid-a`} style={{
