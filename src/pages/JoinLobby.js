@@ -17,13 +17,6 @@ function JoinLobby(){
     const { userId } = useUser();
     const navigate = useNavigate();
 
-    // todo: lobby name validation? 
-
-    // function handleSubmit(){
-    //     navigate(`/game/${fields.lobbyName}`);
-    // }
-
-
     const joinGameLobby = useCallback(() => {
         if (userId) {
             const params = {userId: userId, gameId: fields.lobbyName}
