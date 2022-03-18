@@ -14,7 +14,8 @@ import {
   SPONSOR,
   PLAYER,
   IN_PROGRESS,
-  TEST_STAGE
+  TEST_STAGE,
+  MORDRED
 } from "../../util/constants";
 import QuestSetup from "./QuestSetup";
 
@@ -26,13 +27,16 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   const cards = player && player.playerHand ? player.playerHand : [];
   const [selected, setSelected] = useState([]);
   const [showSetup, setShowSetup] = useState(false);
+  const [showMordred, setShowMordred] = useState(false);
+  const handleCloseMordred = () => setShowMordred(false);
+  const handleShowMordred = () => setShowMordred(true);
 
   const moveInfo =
     roundType == QUEST
       ? player.questInfo
       : roundType == TOURNAMENT
-      ? player.tournamentInfo
-      : null;
+        ? player.tournamentInfo
+        : null;
 
   const validateTurn = () => {
     return user.id === currentPlayer.id;
@@ -154,10 +158,10 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   function renderJoinQuestModal() {
     return (
       <Modal centered show={isJoiningQuest()} backdrop="static" keyboard={false}>
-        <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Modal.Title>{`Join Quest?`} </Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <Modal.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Row>
             <Col>
               <Button variant="outline-dark"
@@ -183,7 +187,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
         <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Modal.Title>{`Join Tournament?`} </Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <Modal.Body style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Row>
             <Col>
               <Button variant="outline-dark"
@@ -201,6 +205,61 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
         </Modal.Body>
       </Modal>
     );
+  }
+
+
+  const canMordred = () => {
+    return validateTurn && cards.filter(card => card.typeId == MORDRED).length > 0
+  }
+
+  function renderMordredModal() {
+    var allyCards = []
+    // get ally cards from all other players
+    
+    const opponents = state.players.filter(player => player.id !== user.id);
+    const currentPlayer = state.players.filter(player => player.id === user.id)[0];
+    console.log("currentPlayer:", currentPlayer);
+    const mordred = currentPlayer?.playerHand?.find(card => card.typeId == MORDRED);
+    console.log("mordred:", mordred)
+    for (const opponent of opponents) {
+      for (const specialCard of opponent.specialCards) {
+        if (specialCard.type == "Ally") {
+          allyCards.push({ card: specialCard, playerId: opponent.id })
+        }
+      }
+    }
+    return (
+      <Modal centered show={showMordred} onHide={handleCloseMordred}>
+        <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Modal.Title>{`Mordred: Select opponent Ally to remove.`}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            {allyCards && allyCards.length > 0 ? (
+              allyCards.map((allyCard) => (
+                <Col
+                  key={allyCard.card.id}
+                  onClick={() => {
+                    axios.post(`/game/round/mordred`, {
+                      data: allyCard.card.id + "#" + mordred.id + "#" + allyCard.playerId,
+                      lobby: lobby,
+                      playerId: user.id,
+                    })
+                    handleCloseMordred();
+                  }
+                    
+                  }
+                >
+                  <Card card={allyCard.card} style={getStyle(allyCard.card.id)} />
+                </Col>
+              ))
+            ) : (
+              <>No opponent Ally cards in play. </>
+            )}
+          </Row>
+        </Modal.Body>
+      </Modal>
+    )
   }
 
   function renderHand() {
@@ -245,21 +304,25 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
     }
     return "/game/round/next";
   }
-  
+
   function POSTRequest(url, object, lobby, playerId = null) {
     setSelected([]);
-    axios.post(url, 
-          playerId ? 
-          { data: object, 
-            lobby: lobby,
-            playerId: playerId}
-          : { data: object, 
-            lobby: lobby}
-          ).then(res => {
-            console.log(res)
-          }).catch(err => {
-            alert(`Error ${err?.response?.status}: ${err?.response?.data?.message}`)
-          });
+    axios.post(url,
+      playerId ?
+        {
+          data: object,
+          lobby: lobby,
+          playerId: playerId
+        }
+        : {
+          data: object,
+          lobby: lobby
+        }
+    ).then(res => {
+      console.log(res)
+    }).catch(err => {
+      alert(`Error ${err?.response?.status}: ${err?.response?.data?.message}`)
+    });
   }
 
   return (
@@ -268,10 +331,21 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
       {renderJoinTournamentModal()}
       {renderDiscardModal()}
       {renderHand()}
+      {canMordred() ? <div style={{ position: "fixed", bottom: 40, left: 10 }}>
+        <Button
+          variant="outline-dark"
+          disabled={!validateTurn() || !canMordred()}
+          onClick={handleShowMordred}
+        >
+          Mordred
+        </Button>
+      </div> : <></>}
+
+      {renderMordredModal()}
       {isSponsoringQuest() ? (
         <>
           <QuestSetup state={state} lobby={lobby} player={player} showSetup={showSetup}
-            setShowSetup={setShowSetup}/>
+            setShowSetup={setShowSetup} />
           <div style={{ position: "fixed", bottom: 0, left: 80 }}>
             <Button
               disabled={!validateTurn()}

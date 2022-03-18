@@ -18,13 +18,13 @@ function Player({ state, playerNum, player, style, roundType, result }) {
 
     const event = roundType == QUEST ? state.quest :
         roundType == TOURNAMENT ? state.tournament : null
-
+        
     return (
         <div className={`player${playerNum} grid-a`} style={style}>
             <div className={`rank${playerNum} grid-a`} style={{
                 borderColor: "darkslategray", borderStyle: (moveInfo ? "solid" : "none")
             }}>
-                <Card card={player.rankCard} style={getStyle()} className="card-static" />
+                <Card card={player.rankCard} style={getStyle()} />
             </div>
             <div className={playerNum <= 2 ? "playerMoveH" : "playerMoveV"}>
                 {moveInfo?.role === SPONSOR ? <b>SPONSOR</b> : <></>}
