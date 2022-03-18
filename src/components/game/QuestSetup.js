@@ -94,7 +94,6 @@ function QuestSetup({ state, lobby, player, showSetup, setShowSetup }) {
     
     const questCardTypes = ["Foe", "Weapon", "Test"];
     const choosenCards = stages.reduce((joined, stage) => {return joined.concat(stage)}, [])
-    // todo: do we want to limit sponsor cards automatically?
     const availableCards = cards.filter((card) => 
         questCardTypes.includes(card.type) && !choosenCards.includes(card) 
     )

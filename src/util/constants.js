@@ -19,3 +19,6 @@ export const PLAYER = 1;
 // GAME CONSTANTS
 export const WAITING_LOBBY = 0;
 export const GAME_OVER = 2;
+
+// MISC
+export const MORDRED = "Foe_11"
