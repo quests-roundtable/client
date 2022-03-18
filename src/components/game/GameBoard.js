@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import Card from "./Card";
-import { QUEST, TOURNAMENT, ROUND_END } from "../../util/constants"
+import { QUEST, TOURNAMENT, ROUND_END, TEST_STAGE } from "../../util/constants"
 
 
 function GameBoard({state, roundType}) {
@@ -26,7 +26,8 @@ function GameBoard({state, roundType}) {
                     state.quest.questStage.map((card, idx) => {
                         return(
                             <Col key={idx}>
-                                {state.quest.roundStatus == ROUND_END ?
+                                {state.quest.roundStatus == ROUND_END || 
+                                    (card.type === "Test" && state.quest.roundStatus == TEST_STAGE) ?
                                 <Card card={card} style={{ width: "6vw" }} />
                                 :
                                 <Card card={{ typeId: "adventure" }} style={{ width: "6vw" }} className="card-static" />

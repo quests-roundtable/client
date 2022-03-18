@@ -39,7 +39,8 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   };
 
   const isPlayable = () => {
-    return state.quest?.roundStatus === IN_PROGRESS || state.tournament?.roundStatus === IN_PROGRESS || state.quest?.roundStatus === TEST_STAGE
+    return (state.quest?.roundStatus === IN_PROGRESS || state.tournament?.roundStatus === IN_PROGRESS 
+      || state.quest?.roundStatus === TEST_STAGE) && selected.length > 0;
   }
 
   const isJoiningQuest = () => {
@@ -207,7 +208,8 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
 
     var availableCards = [];
     if(validateTurn()) {
-      if (player.questInfo?.role === PLAYER) {
+      if ((player.questInfo?.role === PLAYER && state.quest.roundStatus === IN_PROGRESS) 
+        || roundType === TOURNAMENT) {
         availableCards = cards.filter((card) =>
           playingQuestCardTypes.includes(card.type)
         );
@@ -234,6 +236,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
 
   function getPlayUrl() {
     if (state.quest) {
+      if (state.quest.roundStatus === TEST_STAGE) { return "/quest/round/bid"; }
       return "/quest/round/play";
     } else if (state.tournament) {
       return "/tournament/round/play";
@@ -305,14 +308,17 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
                 user.id
               )}
             >
-              Play
+              {(state.quest?.roundStatus === TEST_STAGE && validateTurn()) ? "Bid" : "Play"}
             </Button>
           </div>
           <div style={{ position: "fixed", bottom: 0, left: 10 }}>
             <Button
               disabled={!validateTurn()}
               variant="outline-dark"
-              onClick={usePOSTRequest("/game/round/next", user.id, lobby)}
+              onClick={usePOSTRequest(
+                (state.quest?.roundStatus === TEST_STAGE ? "/quest/round/test/pass"
+                : "/game/round/next"), 
+                user.id, lobby)}
             >
               Pass
             </Button>

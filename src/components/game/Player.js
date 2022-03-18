@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "./Card";
-import { QUEST, TOURNAMENT, SPONSOR, ROUND_END } from "../../util/constants";
+import { QUEST, TOURNAMENT, SPONSOR, ROUND_END, TEST_STAGE } from "../../util/constants";
 
 
 function Player({ state, playerNum, player, style, roundType, result }) {
@@ -18,8 +18,7 @@ function Player({ state, playerNum, player, style, roundType, result }) {
 
     const event = roundType == QUEST ? state.quest :
         roundType == TOURNAMENT ? state.tournament : null
-    console.log("num special cards:", player.specialCards.length)
-    console.log("showing ", moveInfo?.numMoveCards - player.specialCards.length, " cards")
+
     return (
         <div className={`player${playerNum} grid-a`} style={style}>
             <div className={`rank${playerNum} grid-a`} style={{
@@ -29,27 +28,25 @@ function Player({ state, playerNum, player, style, roundType, result }) {
             </div>
             <div className={playerNum <= 2 ? "playerMoveH" : "playerMoveV"}>
                 {moveInfo?.role === SPONSOR ? <b>SPONSOR</b> : <></>}
-                <>
-                    {!event || event?.roundStatus !== ROUND_END ? player?.specialCards.map((card, idx) => {
-                        return (
-                            <Card key={idx} card={card} style={getStyle()} />
-                        )
-                    }) : <></>}
-                </>
+                {!event || event?.roundStatus !== ROUND_END ? player?.specialCards.map((card) => {
+                    return (
+                        <Card key={card.id} card={card} style={getStyle()} />
+                    )
+                }) : <></>}
                 {moveInfo?.playerMove ?
                     (event.roundStatus == ROUND_END ?
-                        result?.hand.map((card, idx) => {
+                        result?.hand.map((card) => {
                             return (
-                                <Card key={idx} card={card} style={getStyle()} />
+                                <Card key={card.id} card={card} style={getStyle()} />
                             )
                         })
-                        : (roundType === TOURNAMENT ?
-                            (moveInfo?.numMoveCards > 0 ? <Card card={{ typeId: "adventure" }} style={getStyle()} /> : <></>)
-                            : [...Array(moveInfo?.numMoveCards - player.specialCards.length) ].map((x, i) => {
-                                return (
-                                    <Card key={i} card={{ typeId: "adventure" }} style={getStyle()} />
-                                )
-                            })))
+                    : (roundType === TOURNAMENT ?
+                        (moveInfo?.numMoveCards > 0 ? <Card card={{ typeId: "adventure" }} style={getStyle()} /> : <></>)
+                    : [...Array(moveInfo?.numMoveCards)].map((x, i) => {
+                        return (
+                            <Card key={i} card={{ typeId: "adventure" }} style={getStyle()} />
+                        )
+                    })))
                     : <></>
                 }
             </div>

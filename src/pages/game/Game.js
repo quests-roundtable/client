@@ -1,20 +1,20 @@
-import React, { useCallback } from "react"
+import React, { useState } from "react"
 import { useUser } from "../../context/UserContext";
 import PlayerHand from "../../components/game/PlayerHand";
-import { Button } from "react-bootstrap";
+import { Button, Modal, Row } from "react-bootstrap";
 import PlayerInfo from "../../components/game/PlayerInfo";
 import GameInfo from "../../components/game/GameInfo";
 import "../../styles/game-layout.css"
 import Player from "../../components/game/Player";
 import Card from "../../components/game/Card";
 import DiscardDeck from "../../components/game/DiscardDeck";
-import { usePOSTRequest } from "../../components/hooks";
 import GameBoard from "../../components/game/GameBoard";
 import { ROUND, QUEST, TOURNAMENT, GAME_OVER } from "../../util/constants"
 
 function Game({ state, lobby }) {
-    const { user } = useUser();
+    const [showModal, setModal] = useState(false);
 
+    const { user } = useUser();
 
     // Align the player div based on the user
     const playerAlign = (state.players.length === 2) ? [1, 2, 3, 4] : [1, 3, 2, 4];
@@ -66,7 +66,7 @@ function Game({ state, lobby }) {
     }
 
     if(state.gameStatus === GAME_OVER) {
-        alert("Game is over!");
+        setModal(true);
     }
 
     return (
@@ -117,6 +117,28 @@ function Game({ state, lobby }) {
                 <GameBoard state={state} roundType={roundType}/>
 
             </div>
+
+            <Modal centered show={showModal} keyboard={false} backdrop="static" onHide={() => setModal(false)}>
+                <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <Modal.Title>Game Over</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row>
+                        <b>Knight of the RoundTable</b>
+                    {state.players.filter(player => {
+                        player.rankCard?.name === "Knight of the Round Table"
+                        }).map((player) => {
+                            return(
+                                <p>{player.name}</p>
+                            )})}
+                    </Row>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="outline-dark" onClick={() => navigate('/')}>
+                        Exit Game
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
         </>
     )
