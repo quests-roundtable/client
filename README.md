@@ -74,4 +74,4 @@ The client runs at [http://localhost:3000](http://localhost:3000).
 
 ## Demo
 Demo for game and game instructions.
-[https://youtu.be/KpTWgx1GZb4](https://youtu.be/KpTWgx1GZb4)
+[https://youtu.be/ZKWXPvJUsOM](https://youtu.be/ZKWXPvJUsOM)
