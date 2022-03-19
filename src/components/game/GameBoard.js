@@ -1,11 +1,11 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import Card from "./Card";
-import { QUEST, TOURNAMENT, ROUND_END, TEST_STAGE } from "../../util/constants"
+import { QUEST, TOURNAMENT, ROUND, ROUND_END, TEST_STAGE } from "../../util/constants"
 
 
 function GameBoard({state, roundType}) {
-
+    // null eventcard so it doesn't persist
     return(
         <div className="quest-event">
             <div className="story-deck grid-a">
@@ -17,8 +17,11 @@ function GameBoard({state, roundType}) {
                     <Card card={state.quest.card} style={{ width: "6vw" }} />
                     : roundType == TOURNAMENT && state.tournament?.card ?
                     <Card card={state.tournament.card} style={{ width: "6vw" }} />
-                    : <></> // Add event card logic
+                    : roundType == ROUND && state.event ?
+                        <Card card={state.event} style={{width: "6vw"}}/>
+                    : <></>
                 }
+                
             </div>
             
             <Row className="event">

@@ -218,9 +218,8 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
     
     const opponents = state.players.filter(player => player.id !== user.id);
     const currentPlayer = state.players.filter(player => player.id === user.id)[0];
-    console.log("currentPlayer:", currentPlayer);
     const mordred = currentPlayer?.playerHand?.find(card => card.typeId == MORDRED);
-    console.log("mordred:", mordred)
+    
     for (const opponent of opponents) {
       for (const specialCard of opponent.specialCards) {
         if (specialCard.type == "Ally") {

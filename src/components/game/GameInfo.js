@@ -26,7 +26,7 @@ function GameInfo({className, state, roundType}) {
                 <b>Quests Of The Round Table</b>
                 <img style={{height: 80}}src={`http://localhost:3000/title.png`} />
             </Row>
-            <Row style={{fontSize: "1vw", paddingTop: "0.5vw"}}>
+            <Row style={{fontSize: "1vw", padding: "0.5vw 0"}}>
                 <div>
                     {roundType == QUEST ?
                         `Quest | Stage ${state.quest?.currentStage}`
@@ -36,13 +36,23 @@ function GameInfo({className, state, roundType}) {
                     }
                 </div>
             </Row>
-            <Row style={{fontSize: "1vw", paddingTop: "0.5vw"}}>
+            {roundType === QUEST && state.quest?.roundStatus === TEST_STAGE ? 
+                <Row style={{paddingBottom: "0.5vw"}}>
+                    <div style={{fontSize: "0.8vw"}}>
+                        {`${state.quest?.questStage[0]?.name}`}</div>
+                    {state.quest?.roundStatus === TEST_STAGE && state.quest?.highestBidder ?
+                        <div style={{fontSize: "0.8vw"}}>{
+                            `Highest Bid - ${state.quest?.highestBid} | ${state.quest?.highestBidder}`}</div>
+                        : <></>
+                    }
+                </Row>
+                : <></>
+            }
+            <Row style={{fontSize: "1vw"}}>
                 <div>
                     {roundEnd ? `${(roundEnd.success ? "Victorious" : "Defeated")}`
                         : roundType === QUEST && player.questInfo?.role === SPONSOR ? "Sponsoring Quest"
-                        : roundType === QUEST && state.quest?.roundStatus === TEST_STAGE ? `${state.quest?.questStage[0]?.name}`
-                        : state.event ?
-                        "Event Info"
+                        : state.eventName ? `${state.EventName}`
                         : <></>
                     }
                 </div>
