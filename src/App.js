@@ -11,7 +11,7 @@ function App() {
       <UserContextProvider>
         <Router>
           <Routes>
-            <Route path="game/:id" element={<GameWrapper />} />
+            <Route path="game/:id" element={<GameWrapper p/>} />
             <Route path="create" element={<CreateLobby />} />
             <Route path="join" element={<JoinLobby />} />
             <Route path="health" element={<Health />} />

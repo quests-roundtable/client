@@ -27,7 +27,6 @@ const SocketProvider = React.memo(({ children, lobby, setState }) => {
     const client = useContext(SocketContext)
     const { user } = useUser(); // todo: remove
     const messageHandler = useCallback((message) => {
-        console.log(message)
         if (message.body) {
             var object = JSON.parse(message.body)
             console.log("object: ", object);
