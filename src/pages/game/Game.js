@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useUser } from "../../context/UserContext";
 import PlayerHand from "../../components/game/PlayerHand";
 import { Button, Modal, Row } from "react-bootstrap";
@@ -11,10 +11,24 @@ import DiscardDeck from "../../components/game/DiscardDeck";
 import GameBoard from "../../components/game/GameBoard";
 import { ROUND, QUEST, TOURNAMENT, GAME_OVER } from "../../util/constants"
 
+
+import Logs from "./Logs";
+
 function Game({ state, lobby }) {
     const [showModal, setModal] = useState(false);
 
     const { user } = useUser();
+
+    const [messages, setMessages] = useState([]);
+    const [showMessages, setShowMessages] = useState(false);
+
+    useEffect(() => {
+        const splitMessages = state.message.split('\n');
+        if (messages[messages.length - 1] != splitMessages[splitMessages.length - 1]) {
+            setMessages([...messages, ...splitMessages]);
+        }
+    }, [state.message])
+
 
     // Align the player div based on the user
     const playerAlign = (state.players.length === 2) ? [1, 2, 3, 4] : [1, 3, 2, 4];
@@ -35,7 +49,7 @@ function Game({ state, lobby }) {
 
     // Round type
     const getRoundType = () => {
-        if(state.quest) {
+        if (state.quest) {
             return QUEST
         } else if (state.tournament) {
             return TOURNAMENT
@@ -47,25 +61,25 @@ function Game({ state, lobby }) {
     const roundType = getRoundType();
 
     // Current Player
-    const currentPlayer = roundType == ROUND ? state.players[state.currentPlayer] 
-                        : roundType == TOURNAMENT ? state.players[state.tournament.currentPlayer]
-                        : state.players[state.quest.currentPlayer]
+    const currentPlayer = roundType == ROUND ? state.players[state.currentPlayer]
+        : roundType == TOURNAMENT ? state.players[state.tournament.currentPlayer]
+            : state.players[state.quest.currentPlayer]
 
     const validateTurn = () => {
         return user.id === currentPlayer.id
     }
 
     const getResult = (idx) => {
-        if (state.quest?.roundResult){
+        if (state.quest?.roundResult) {
             return state.quest?.roundResult?.results[players[idx].id]
-        } else if (state.tournament?.roundResult){
+        } else if (state.tournament?.roundResult) {
             return state.tournament?.roundResult?.results[players[idx].id]
         } else {
             return null;
         }
     }
 
-    if(state.gameStatus === GAME_OVER) {
+    if (state.gameStatus === GAME_OVER) {
         setModal(true);
     }
 
@@ -73,26 +87,26 @@ function Game({ state, lobby }) {
         <>
             <div className="container">
                 {/* Add game-info component */}
-                <GameInfo className="game-info" state={state} roundType={roundType}/>
+                <GameInfo className="game-info" state={state} roundType={roundType} />
 
                 {/* Add player-info component*/}
                 <PlayerInfo className="player-info" players={players}
                     currentPlayer={currentPlayer} />
 
                 {/* Add player hand component*/}
-                <PlayerHand className="hand" state={state} lobby={lobby} 
-                    roundType={roundType} currentPlayer={currentPlayer}/>
+                <PlayerHand className="hand" state={state} lobby={lobby}
+                    roundType={roundType} currentPlayer={currentPlayer} />
 
                 {/* Add player components below with the given className */}
                 {playerAlign.map((num, idx) => {
                     if (players[idx]) {
                         return (
-                            <Player key={idx} state= {state} playerNum={num} player={players[idx]} roundType={roundType} 
+                            <Player key={idx} state={state} playerNum={num} player={players[idx]} roundType={roundType}
                                 result={getResult(idx)}
-                                style={{ 
+                                style={{
                                     borderColor: (players[idx].id === currentPlayer?.id ? "darkRed" : "black"),
                                     borderStyle: (players[idx].id === currentPlayer?.id ? "solid" : "dashed")
-                            }} />
+                                }} />
                         )
                     } else {
                         return (
@@ -114,23 +128,24 @@ function Game({ state, lobby }) {
                 </div>
 
                 {/* Add game main component*/}
-                <GameBoard state={state} roundType={roundType}/>
+                <GameBoard state={state} roundType={roundType} />
 
             </div>
 
             <Modal centered show={showModal} keyboard={false} backdrop="static" onHide={() => setModal(false)}>
-                <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+                <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Modal.Title>Game Over</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
                         <b>Knight of the RoundTable</b>
-                    {state.players.filter(player => {
-                        player.rankCard?.name === "Knight of the Round Table"
+                        {state.players.filter(player => {
+                            player.rankCard?.name === "Knight of the Round Table"
                         }).map((player) => {
-                            return(
+                            return (
                                 <p>{player.name}</p>
-                            )})}
+                            )
+                        })}
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
@@ -139,6 +154,26 @@ function Game({ state, lobby }) {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            <Modal scrollable={true} show={showMessages} onHide={() => setShowMessages(false)}>
+                <Modal.Header style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <Modal.Title>Logs</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row>
+                        {/* {messages.map(message => <div>{message}</div>)} */}
+                        <Logs messages={messages}/>
+                    </Row>
+                </Modal.Body>
+            </Modal>
+            <div style={{ position: "fixed", bottom: 0, right: 0 }}>
+                <Button
+                    variant="outline-dark"
+                    onClick={() => setShowMessages(true)}
+                >
+                    Logs
+                </Button>
+            </div>
 
         </>
     )
