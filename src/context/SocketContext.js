@@ -12,7 +12,7 @@ import { useUser } from "./UserContext"; // todo: remove
 const wsclient = new Client({
     brokerURL: 'ws://localhost:9090/ws',
     debug: function (str) {
-        console.log(str);
+        // console.log(str);
     },
     reconnectDelay: 5000,
     heartbeatIncoming: 4000,
