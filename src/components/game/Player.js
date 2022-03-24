@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "./Card";
-import { QUEST, TOURNAMENT, SPONSOR, ROUND_END, TEST_STAGE } from "../../util/constants";
+import { QUEST, TOURNAMENT, SPONSOR, ROUND_END } from "../../util/constants";
 
 
 function Player({ state, playerNum, player, style, roundType, result }) {
@@ -20,7 +20,7 @@ function Player({ state, playerNum, player, style, roundType, result }) {
         roundType == TOURNAMENT ? state.tournament : null
 
     const specialCards = player.specialCards?.map(card => card.id);
-        
+
     return (
         <div className={`player${playerNum} grid-a`} style={style}>
             <div className={`rank${playerNum} grid-a`} style={{
@@ -34,7 +34,7 @@ function Player({ state, playerNum, player, style, roundType, result }) {
                         <Card key={card.id} card={card} style={getStyle()} />
                     )
                 })}
-                {moveInfo?.role === SPONSOR ? <b style ={{marginLeft: "3vw"}}>SPONSOR</b> : <></>}
+                {moveInfo?.role === SPONSOR ? <b style={{ marginLeft: "3vw" }}>SPONSOR</b> : <></>}
                 {moveInfo?.playerMove ?
                     (event.roundStatus == ROUND_END && (state.quest?.questStage[0]?.type === "Test" ?
                         result?.success : true) ?
@@ -43,13 +43,13 @@ function Player({ state, playerNum, player, style, roundType, result }) {
                                 <Card key={card.id} card={card} style={getStyle()} />
                             )
                         })
-                    : (roundType === TOURNAMENT ?
-                        (moveInfo?.numMoveCards > 0 ? <Card card={{ typeId: "adventure" }} style={getStyle()} /> : <></>)
-                    : [...Array(moveInfo?.numMoveCards)].map((x, i) => {
-                        return (
-                            <Card key={i} card={{ typeId: "adventure" }} style={getStyle()} />
-                        )
-                    })))
+                        : (roundType === TOURNAMENT ?
+                            (moveInfo?.numMoveCards > 0 ? <Card card={{ typeId: "adventure" }} style={getStyle()} /> : <></>)
+                            : [...Array(moveInfo?.numMoveCards)].map((x, i) => {
+                                return (
+                                    <Card key={i} card={{ typeId: "adventure" }} style={getStyle()} />
+                                )
+                            })))
                     : <></>
                 }
             </div>

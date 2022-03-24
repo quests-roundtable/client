@@ -13,7 +13,7 @@ function Home() {
                 Create Lobby</Button>
             <Button className="home-bt" onClick={() => navigate("/join")} variant="outline-dark">
                 Join Lobby</Button>
-            <Button className="home-bt" onClick={()=>navigate("/health")} variant="outline-dark">
+            <Button className="home-bt" onClick={() => navigate("/health")} variant="outline-dark">
                 Health Check</Button>
         </div>
     )

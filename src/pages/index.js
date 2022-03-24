@@ -4,4 +4,4 @@ import JoinLobby from "./JoinLobby";
 import GameWrapper from "./game/GameWrapper"
 import Health from "./Health"
 
-export {Home, CreateLobby, JoinLobby, GameWrapper, Health};
+export { Home, CreateLobby, JoinLobby, GameWrapper, Health };

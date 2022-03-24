@@ -4,12 +4,10 @@ import Game from "./Game";
 import { SocketProvider } from "../../context/SocketContext";
 import Lobby from "../Lobby";
 
-// const IN_PROGRESS = 1;
 const WAITING_LOBBY = 0;
 
 function GameWrapper() {
   const [state, setState] = useState(useLocation().state);
-  const navigate = useNavigate();
   const { id } = useParams();
 
   useLayoutEffect(() => {
@@ -20,14 +18,14 @@ function GameWrapper() {
 
   return (
     <SocketProvider lobby={id} setState={setState} >
-        {state.gameStatus === WAITING_LOBBY ? (
-          <div>
-            <Lobby state={state} lobby={id}/>
-          </div>
-        ) : (
-          <Game state={state} lobby={id}/>
-        )
-        }
+      {state.gameStatus === WAITING_LOBBY ? (
+        <div>
+          <Lobby state={state} lobby={id} />
+        </div>
+      ) : (
+        <Game state={state} lobby={id} />
+      )
+      }
     </SocketProvider>
   );
 }
