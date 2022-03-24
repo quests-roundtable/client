@@ -1,12 +1,12 @@
-import React, {useCallback} from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Button } from "react-bootstrap"
+import { Button } from "react-bootstrap"
 import { useUser } from "../context/UserContext";
 import { SetUsername } from "../components/SetUsername";
 import { Back } from "../components/Back";
 import "../styles/lobby.css"
 
-function CreateLobby(){
+function CreateLobby() {
     const { userId } = useUser();
     const navigate = useNavigate();
 
@@ -14,19 +14,19 @@ function CreateLobby(){
         if (userId) {
             const params = userId;
             fetch(
-                `/game/create`, {method: "POST", body: params}
-            ).then((res) => res.json()).then((res) => navigate(`/game/${res.game.id}`, {state: res.game}))
-            .catch(err => alert(err));
+                `${process.env.REACT_APP_BACKEND_URL}/game/create`, { method: "POST", body: params }
+            ).then((res) => res.json()).then((res) => navigate(`/game/${res.game.id}`, { state: res.game }))
+                .catch(err => alert(err));
         }
     }, [userId, navigate]);
 
     return (
         <div className="lobby-div">
             <div>
-                <Back className="back-bt"/>
+                <Back className="back-bt" />
                 <h2 className="lobby-margin"><b>Lobby</b></h2>
             </div>
-            <SetUsername/>
+            <SetUsername />
             <Button className="lobby-bt" variant="outline-dark" type="submit" onClick={createGameLobby}>
                 Create Lobby</Button>
         </div>

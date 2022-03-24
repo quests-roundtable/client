@@ -1,8 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import Card from "./Card";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 import { useUser } from "../../context/UserContext";
-import { propTypes } from "react-bootstrap/esm/Image";
 import axios from "axios";
 import { usePOSTRequest } from "../hooks";
 import {
@@ -43,7 +42,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   };
 
   const isPlayable = () => {
-    return (state.quest?.roundStatus === IN_PROGRESS || state.tournament?.roundStatus === IN_PROGRESS 
+    return (state.quest?.roundStatus === IN_PROGRESS || state.tournament?.roundStatus === IN_PROGRESS
       || state.quest?.roundStatus === TEST_STAGE) && selected.length > 0;
   }
 
@@ -136,7 +135,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
                 <Col
                   key={card.id}
                   onClick={() =>
-                    axios.post(`/game/round/discard`, {
+                    axios.post(`${process.env.REACT_APP_BACKEND_URL}/game/round/discard`, {
                       data: card.id,
                       lobby: lobby,
                       playerId: user.id,
@@ -215,11 +214,11 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   function renderMordredModal() {
     var allyCards = []
     // get ally cards from all other players
-    
+
     const opponents = state.players.filter(player => player.id !== user.id);
     const currentPlayer = state.players.filter(player => player.id === user.id)[0];
     const mordred = currentPlayer?.playerHand?.find(card => card.typeId == MORDRED);
-    
+
     for (const opponent of opponents) {
       for (const specialCard of opponent.specialCards) {
         if (specialCard.type == "Ally") {
@@ -239,14 +238,14 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
                 <Col
                   key={allyCard.card.id}
                   onClick={() => {
-                    axios.post(`/game/round/mordred`, {
+                    axios.post(`${process.env.REACT_APP_BACKEND_URL}/game/round/mordred`, {
                       data: allyCard.card.id + "#" + mordred.id + "#" + allyCard.playerId,
                       lobby: lobby,
                       playerId: user.id,
                     })
                     handleCloseMordred();
                   }
-                    
+
                   }
                 >
                   <Card card={allyCard.card} style={getStyle(allyCard.card.id)} />
@@ -265,8 +264,8 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
     const playingQuestCardTypes = ["Weapon", "Ally", "Amour"];
 
     var availableCards = [];
-    if(validateTurn()) {
-      if ((player.questInfo?.role === PLAYER && state.quest.roundStatus === IN_PROGRESS) 
+    if (validateTurn()) {
+      if ((player.questInfo?.role === PLAYER && state.quest.roundStatus === IN_PROGRESS)
         || roundType === TOURNAMENT) {
         availableCards = cards.filter((card) =>
           playingQuestCardTypes.includes(card.type)
@@ -306,7 +305,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
 
   function POSTRequest(url, object, lobby, playerId = null) {
     setSelected([]);
-    axios.post(url,
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}${url}`,
       playerId ?
         {
           data: object,
@@ -390,7 +389,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
               variant="outline-dark"
               onClick={usePOSTRequest(
                 (state.quest?.roundStatus === TEST_STAGE ? "/quest/round/test/pass"
-                : "/game/round/next"), 
+                  : "/game/round/next"),
                 user.id, lobby)}
             >
               Pass

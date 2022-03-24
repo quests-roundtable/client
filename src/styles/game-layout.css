@@ -143,7 +143,7 @@
       "story-deck story-card event"
       "story-deck story-card event";
     grid-area: quest-event;
-    background-image: url("http://localhost:3000/background.png");
+    background-image: url("../../public/background.png");
     background-color: white;
     background-repeat: no-repeat;
     background-position: center;

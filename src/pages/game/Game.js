@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react"
+import React, {useEffect, useState } from "react"
 import { useUser } from "../../context/UserContext";
 import PlayerHand from "../../components/game/PlayerHand";
-import { Button, Modal, Row } from "react-bootstrap";
 import PlayerInfo from "../../components/game/PlayerInfo";
 import GameInfo from "../../components/game/GameInfo";
 import "../../styles/game-layout.css"
@@ -9,6 +8,7 @@ import Player from "../../components/game/Player";
 import Card from "../../components/game/Card";
 import DiscardDeck from "../../components/game/DiscardDeck";
 import GameBoard from "../../components/game/GameBoard";
+import { Modal, Row, Button } from "react-bootstrap";
 import { ROUND, QUEST, TOURNAMENT, GAME_OVER } from "../../util/constants"
 
 
@@ -162,7 +162,7 @@ function Game({ state, lobby }) {
                 <Modal.Body>
                     <Row>
                         {/* {messages.map(message => <div>{message}</div>)} */}
-                        <Logs messages={messages}/>
+                        <Logs messages={messages} />
                     </Row>
                 </Modal.Body>
             </Modal>
