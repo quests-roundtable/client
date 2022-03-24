@@ -12,7 +12,7 @@ function Health() {
         onLoad();
     })
     const getHealth = async () => {
-        axios.get(`/actuator/health`).then((res) => {
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/test/health`).then((res) => {
             console.log(res);
             setHealth(res.status === 200 ? "up" : "down");
         }).catch(err => alert(err));

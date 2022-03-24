@@ -135,7 +135,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
                 <Col
                   key={card.id}
                   onClick={() =>
-                    axios.post(`/game/round/discard`, {
+                    axios.post(`${process.env.REACT_APP_BACKEND_URL}/game/round/discard`, {
                       data: card.id,
                       lobby: lobby,
                       playerId: user.id,
@@ -238,7 +238,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
                 <Col
                   key={allyCard.card.id}
                   onClick={() => {
-                    axios.post(`/game/round/mordred`, {
+                    axios.post(`${process.env.REACT_APP_BACKEND_URL}/game/round/mordred`, {
                       data: allyCard.card.id + "#" + mordred.id + "#" + allyCard.playerId,
                       lobby: lobby,
                       playerId: user.id,
@@ -305,7 +305,7 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
 
   function POSTRequest(url, object, lobby, playerId = null) {
     setSelected([]);
-    axios.post(url,
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}${url}`,
       playerId ?
         {
           data: object,

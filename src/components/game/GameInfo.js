@@ -23,7 +23,7 @@ function GameInfo({ className, state, roundType }) {
         <Col className={className} style={{ padding: "0.5vw", margin: "0 0%" }}>
             <Row style={{ fontSize: "1.3vw", fontStyle: "italic" }}>
                 <b>Quests Of The Round Table</b>
-                <img style={{ height: 80 }} src={`http://localhost:3000/title.png`} />
+                <img style={{ height: 80 }} src={`/title.png`} />
             </Row>
             <Row style={{ fontSize: "1vw", padding: "0.5vw 0" }}>
                 <div>

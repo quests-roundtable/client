@@ -14,7 +14,7 @@ function CreateLobby() {
         if (userId) {
             const params = userId;
             fetch(
-                `/game/create`, { method: "POST", body: params }
+                `${process.env.REACT_APP_BACKEND_URL}/game/create`, { method: "POST", body: params }
             ).then((res) => res.json()).then((res) => navigate(`/game/${res.game.id}`, { state: res.game }))
                 .catch(err => alert(err));
         }

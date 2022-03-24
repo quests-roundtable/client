@@ -17,7 +17,7 @@ export function useFields(initialState) {
 export function usePOSTRequest(url, object, lobby, playerId = null) {
 
   const sendRequest = useCallback(() => {
-    axios.post(url,
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}${url}`,
       playerId ?
         {
           data: object,

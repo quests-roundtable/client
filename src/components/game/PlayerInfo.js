@@ -21,7 +21,7 @@ function PlayerInfo({ className, players, currentPlayer }) {
                     }}>
                         <Col xs={3} style={{ padding: "15% 0 5% 5%" }}>
                             <img className="card-static" style={{ width: "90%" }}
-                                src={`http://localhost:3000/cards/shields1.png`} />
+                                src={`/cards/shields1.png`} />
                         </Col>
                         <Col key='1' style={infoStyle} className="grid-a">
                             <li key='0'>{player.name}</li>

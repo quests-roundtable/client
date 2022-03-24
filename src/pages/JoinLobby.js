@@ -21,7 +21,7 @@ function JoinLobby() {
         if (userId) {
             const params = { userId: userId, gameId: fields.lobbyName }
             axios.post(
-                `/game/connect`, params
+                `${process.env.REACT_APP_BACKEND_URL}/game/connect`, params
             ).then(
                 (res) => res.data
             ).then(
@@ -35,7 +35,7 @@ function JoinLobby() {
             const params = { userId: userId, gameId: null }
             console.log(userId)
             axios.post(
-                `/game/connect/random`, params
+                `${process.env.REACT_APP_BACKEND_URL}/game/connect/random`, params
             ).then(
                 (res) => res.data
             ).then(

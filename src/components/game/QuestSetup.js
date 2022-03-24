@@ -77,7 +77,7 @@ function QuestSetup({ state, lobby, player, showSetup, setShowSetup }) {
         setSelected({})
         setStages(new Array(state.quest?.card?.questStages).fill([]));
 
-        axios.post(url,
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}${url}`,
             playerId ?
                 {
                     data: object,

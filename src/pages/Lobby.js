@@ -33,7 +33,7 @@ function Lobby({ state, lobby }) {
                         onChange={e => setField("message", e.target.value)}
                     />
                     <Button variant="outline-dark" type="submit"
-                        onClick={usePOSTRequest("/game/message", fields.message, state.id)}>
+                        onClick={usePOSTRequest(`/game/message`, fields.message, state.id)}>
                         Send message
                     </Button>
                 </InputGroup>

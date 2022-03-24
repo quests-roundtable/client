@@ -12,7 +12,7 @@ function GameWrapper() {
 
   useLayoutEffect(() => {
     fetch(
-      `/game/${id}`, { method: "GET" }
+      `${process.env.REACT_APP_BACKEND_URL}/game/${id}`, { method: "GET" }
     ).then((res) => res.json()).then((data) => setState(data))
   }, [])
 
