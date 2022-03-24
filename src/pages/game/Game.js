@@ -161,7 +161,7 @@ function Game({ state, lobby }) {
                 <Modal.Body>
                     <Row>
                         {/* {messages.map(message => <div>{message}</div>)} */}
-                        <Logs messages={messages}/>
+                        <Logs messages={messages} />
                     </Row>
                 </Modal.Body>
             </Modal>

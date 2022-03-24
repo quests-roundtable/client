@@ -18,7 +18,6 @@ async function getUser() {
 
     const cookieId = cookie.get("userId");
     if (cookieId !== undefined) {
-        // alert(`Cookie exists! fetching user ${cookieId}`)
         console.log(`cookie exists fetching user ${cookieId}`)
         const user = await fetch(`/user/user/${cookieId}`).then((res) => res.json()).catch((e) => {
             console.log(e);
@@ -39,7 +38,7 @@ function UserContextProvider({ children }) {
     useEffect(() => getUser().then((res) => setUser(res)), []);
 
     const setUserName = useCallback((username) => {
-        const params = {id: user.id, name: username};
+        const params = { id: user.id, name: username };
         axios.post(`/user/setName`, params).then((res) => {
             setUser(res.data);
         }).catch((err) => {
