@@ -20,6 +20,16 @@ function CreateLobby() {
         }
     }, [userId, navigate]);
 
+    const createTestGameLobby = useCallback(() => {
+        if (userId) {
+            const params = userId;
+            fetch(
+                `${process.env.REACT_APP_BACKEND_URL}/game/createtest`, { method: "POST", body: params }
+            ).then((res) => res.json()).then((res) => navigate(`/game/${res.game.id}`, { state: res.game }))
+                .catch(err => alert(err));
+        }
+    }, [userId, navigate]);
+
     return (
         <div className="lobby-div">
             <div>
@@ -29,6 +39,8 @@ function CreateLobby() {
             <SetUsername />
             <Button className="lobby-bt" variant="outline-dark" type="submit" onClick={createGameLobby}>
                 Create Lobby</Button>
+            <Button className="lobby-bt" variant="outline-dark" type="submit" onClick={createTestGameLobby}>
+                Create Test Lobby</Button>
         </div>
     )
 }
