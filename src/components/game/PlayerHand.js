@@ -23,7 +23,9 @@ function PlayerHand({ className, state, lobby, roundType, currentPlayer }) {
   const player = state.players
     ? state.players.find((player) => player.id == user.id)
     : null;
-  const cards = player && player.playerHand ? player.playerHand : [];
+  var cards = player && player.playerHand ? player.playerHand : [];
+  // ensure cards are not repeated
+  cards = cards.filter((v,i,a) => a.indexOf(v) === i);
   const [selected, setSelected] = useState([]);
   const [showSetup, setShowSetup] = useState(false);
   const [showMordred, setShowMordred] = useState(false);
