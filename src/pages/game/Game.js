@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useUser } from "../../context/UserContext";
 import PlayerHand from "../../components/game/PlayerHand";
 import PlayerInfo from "../../components/game/PlayerInfo";
@@ -10,7 +10,7 @@ import DiscardDeck from "../../components/game/DiscardDeck";
 import GameBoard from "../../components/game/GameBoard";
 import { Modal, Row, Button } from "react-bootstrap";
 import { ROUND, QUEST, TOURNAMENT, GAME_OVER } from "../../util/constants"
-
+import { Back } from "../../components/Back"
 
 import Logs from "./Logs";
 
@@ -26,6 +26,10 @@ function Game({ state, lobby }) {
         const splitMessages = state.message.split('\n');
         if (messages[messages.length - 1] != splitMessages[splitMessages.length - 1]) {
             setMessages([...messages, ...splitMessages]);
+        }
+
+        if (state.gameStatus === GAME_OVER) {
+            setModal(true);
         }
     }, [state.message])
 
@@ -79,9 +83,7 @@ function Game({ state, lobby }) {
         }
     }
 
-    if (state.gameStatus === GAME_OVER) {
-        setModal(true);
-    }
+
 
     return (
         <>
@@ -138,7 +140,7 @@ function Game({ state, lobby }) {
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
-                        <b>Knight of the RoundTable</b>
+                        <b>Knight of the Round Table</b>
                         {state.players.filter(player => {
                             player.rankCard?.name === "Knight of the Round Table"
                         }).map((player) => {
@@ -149,9 +151,7 @@ function Game({ state, lobby }) {
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="outline-dark" onClick={() => navigate('/')}>
-                        Exit Game
-                    </Button>
+                    <Back className="back-bt" />
                 </Modal.Footer>
             </Modal>
 
