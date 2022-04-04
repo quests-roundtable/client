@@ -45,13 +45,15 @@ function GameInfo({ className, state, roundType }) {
                         : <></>
                     }
                 </Row>
+                : roundType == TOURNAMENT && state.tournament?.tieBreaker === true ? 
+                    <div style={{ fontSize: "1vw" }}> {`Tie Breaker`} </div>
                 : <></>
             }
             <Row style={{ fontSize: "1vw" }}>
                 <div>
                     {roundEnd ? `${(roundEnd.success ? "Victorious" : "Defeated")}`
                         : roundType === QUEST && player.questInfo?.role === SPONSOR ? "Sponsoring Quest"
-                            : state.eventName ? `${state.EventName}`
+                            : state.event?.name ? `${state.event?.name}`
                                 : <></>
                     }
                 </div>

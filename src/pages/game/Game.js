@@ -92,7 +92,7 @@ function Game({ state, lobby }) {
                 <GameInfo className="game-info" state={state} roundType={roundType} />
 
                 {/* Add player-info component*/}
-                <PlayerInfo className="player-info" players={players}
+                <PlayerInfo className="player-info" state={state} players={players}
                     currentPlayer={currentPlayer} />
 
                 {/* Add player hand component*/}
@@ -142,10 +142,10 @@ function Game({ state, lobby }) {
                     <Row>
                         <b>Knight of the Round Table</b>
                         {state.players.filter(player => {
-                            player.rankCard?.name === "Knight of the Round Table"
+                            return player.rankCard?.name === "Knight of the Round Table"
                         }).map((player) => {
                             return (
-                                <p>{player.name}</p>
+                                <p key={player.id}>{player.name}</p>
                             )
                         })}
                     </Row>
